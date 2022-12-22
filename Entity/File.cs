@@ -1,4 +1,6 @@
-﻿namespace RentmanSharp.Entity
+﻿using System.Text.Json.Serialization;
+
+namespace RentmanSharp.Entity
 {
     public class File : AbstractEntity
     {
@@ -15,7 +17,7 @@
         public bool Public { get; set; }
         public string? Type { get; set; }
         public string? Preview_of { get; set; }
-        public string? PreviewStatus { get; set; }
+        public EFilePreviewStatus? PreviewStatus { get; set; }
         public int File_Item { get; set; }
         public string? File_ItemType { get; set; }
         public string? Path { get; set; }
@@ -25,6 +27,13 @@
         public override string ToString()
         {
             return $"File\t{ID}\t{DisplayName}";
+        }
+        [JsonConverter(typeof(EFilePreviewStatusConverter))]
+        public enum EFilePreviewStatus
+        {
+            No,
+            Yes,
+            Failed
         }
     }
 }

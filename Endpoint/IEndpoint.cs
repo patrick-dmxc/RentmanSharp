@@ -5,6 +5,7 @@ namespace RentmanSharp.Endpoint
     public interface IEndpoint
     {
         string Path { get; }
-        Task<IEntity[]> GetDataEntity(Pagination? pagination = null);
+        Task<IEntity[]> GetCollectionEntity(Pagination? pagination = null);
+        Task<IEntity> GetItemEntity(uint id);
     }
 }

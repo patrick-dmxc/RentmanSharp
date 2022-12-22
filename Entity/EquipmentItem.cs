@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace RentmanSharp.Entity
 {
@@ -22,12 +23,12 @@ namespace RentmanSharp.Entity
         public double Price { get; set; }
         public double Subrental_Costs { get; set; }
         public double Critical_Stock_Level { get; set; }
-        public string? Type { get; set; }
-        public string? Rental_Sales { get; set; }
+        public EEquipmentType? Type { get; set; }
+        public EEquipmentRentalSalesType? Rental_Sales { get; set; }
         public bool Temporary { get; set; }
         public bool In_Planner { get; set; }
         public bool In_Archive { get; set; }
-        public string? Stock_Management { get; set; }
+        public EEquipmentStockManagement? Stock_Management { get; set; }
         public string? Taxclass { get; set; }
         public double List_Price { get; set; }
         public double Volume { get; set; }
@@ -50,6 +51,25 @@ namespace RentmanSharp.Entity
         public override string ToString()
         {
             return $"Equipment\t{ID}\t{DisplayName}";
+        }
+        [JsonConverter(typeof(EEquipmentTypeConverter))]
+        public enum EEquipmentType
+        {
+            Set,
+            Case,
+            Item
+        }
+        [JsonConverter(typeof(EEquipmentRentalSalesTypeConverter))]
+        public enum EEquipmentRentalSalesType
+        {
+            Sale,
+            Rental
+        }
+        [JsonConverter(typeof(EEquipmentStockManagementConverter))]
+        public enum EEquipmentStockManagement
+        {
+            ExcludeFromStockTracking,
+            TrackStock
         }
     }
 }

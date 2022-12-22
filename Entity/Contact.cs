@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace RentmanSharp.Entity
 {
@@ -8,12 +9,12 @@ namespace RentmanSharp.Entity
         public string? Type { get; set; }
         public string? Ext_Name_Line { get; set; }
         public string? FirstName { get; set; }
-        public int Distance { get; set; }
-        public int Travel_Time { get; set; }
+        public int? Distance { get; set; }
+        public int? Travel_Time { get; set; }
         public string? Surfix { get; set; }
         public string? Surname { get; set; }
-        public int Longitude { get; set; }
-        public int Latitude { get; set; }
+        public int? Longitude { get; set; }
+        public int? Latitude { get; set; }
         public string? Code { get; set; }
         public string? Accounting_Code { get; set; }
         public string? Name { get; set; }
@@ -50,22 +51,27 @@ namespace RentmanSharp.Entity
         public string? Bank_Account { get; set; }
         public string? Default_Person { get; set; }
         public string? Admin_Contactperson { get; set; }
-        public double Discount_Crew { get; set; }
-        public double Discount_Transport { get; set; }
-        public double Discount_Rental { get; set; }
-        public double Discount_Sale { get; set; }
-        public double Discount_Total { get; set; }
-        public double Discount_Subrent { get; set; }
+        public double? Discount_Crew { get; set; }
+        public double? Discount_Transport { get; set; }
+        public double? Discount_Rental { get; set; }
+        public double? Discount_Sale { get; set; }
+        public double? Discount_Total { get; set; }
+        public double? Discount_Subrent { get; set; }
         public string? ProjectNote { get; set; }
         public string? ProjectNote_Title { get; set; }
         public string? Contact_Warning { get; set; }
         public string? Tags { get; set; }
-
         public JsonElement Custom { get; set; }
 
         public override string ToString()
         {
             return $"Contact\t{ID}\t{DisplayName}";
+        }
+        [JsonConverter(typeof(EContactTypeConverter))]
+        public enum EContactType
+        {
+            Private,
+            Company
         }
     }
 }

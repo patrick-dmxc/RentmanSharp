@@ -8,5 +8,13 @@ namespace RentmanSharp.Endpoint
     public class Costs : AbstractEndpoint<Cost>
     {
         public override string Path { get => "costs"; }
+        public async Task<Cost?> UpdateItem(Cost item, uint id)
+        {
+            return await UpdateItemInternal(id, item);
+        }
+        public async Task DeleteItem(uint id)
+        {
+            await DeleteItemInternal(id);
+        }
     }
 }

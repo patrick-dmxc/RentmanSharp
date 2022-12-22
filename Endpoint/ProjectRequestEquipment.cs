@@ -8,5 +8,13 @@ namespace RentmanSharp.Endpoint
     public class ProjectRequestEquipment : AbstractEndpoint<ProjectRequestEquipmentItem>
     {
         public override string Path { get => "projectrequestequipment"; }
+        public async Task<ProjectRequestEquipmentItem?> UpdateItem(ProjectRequestEquipmentItem item, uint id)
+        {
+            return await UpdateItemInternal(id, item);
+        }
+        public async Task DeleteItem(uint id)
+        {
+            await DeleteItemInternal(id);
+        }
     }
 }

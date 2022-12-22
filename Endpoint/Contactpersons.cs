@@ -8,5 +8,13 @@ namespace RentmanSharp.Endpoint
     public class Contactpersons : AbstractEndpoint<Contactperson>
     {
         public override string Path { get => "contactpersons"; }
+        public async Task<Contactperson?> UpdateItem(Contactperson item, uint id)
+        {
+            return await UpdateItemInternal(id, item);
+        }
+        public async Task DeleteItem(uint id)
+        {
+            await DeleteItemInternal(id);
+        }
     }
 }

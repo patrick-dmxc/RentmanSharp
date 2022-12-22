@@ -2,7 +2,7 @@
 {
     public abstract class AbstractEntity : IEntity
     {
-        public int ID { get; set; }
+        public uint? ID { get; set; }
         public DateTime? Created { get; set; }
         public DateTime? Modified { get; set; }
         public string? Creator { get; set; }

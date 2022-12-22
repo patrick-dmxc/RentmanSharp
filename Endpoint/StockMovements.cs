@@ -8,5 +8,13 @@ namespace RentmanSharp.Endpoint
     public class StockMovements : AbstractEndpoint<StockMovement>
     {
         public override string Path { get => "stockmovements"; }
+        public async Task<StockMovement?> UpdateItem(StockMovement item, uint id)
+        {
+            return await UpdateItemInternal(id, item);
+        }
+        public async Task DeleteItem(uint id)
+        {
+            await DeleteItemInternal(id);
+        }
     }
 }
