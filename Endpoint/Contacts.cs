@@ -23,5 +23,19 @@ namespace RentmanSharp.Endpoint
         {
             await DeleteItemInternal(id);
         }
+        public async Task<Contactperson[]> GetLinkedContactpersonsCollectionEntity(uint id, Pagination? pagination = null)
+        {
+            Contactpersons? contactpersons = Connection.Instance.GetEndpoint(typeof(Contactpersons)) as Contactpersons;
+            if (contactpersons == null)
+                throw new NotSupportedException();
+            return await contactpersons.GetCollection(BaseUrl + $"/{Path}/{id}", pagination);
+        }
+        public async Task<Entity.File[]> GetLinkedFilesCollectionEntity(uint id, Pagination? pagination = null)
+        {
+            Files? files = Connection.Instance.GetEndpoint(typeof(Files)) as Files;
+            if (files == null)
+                throw new NotSupportedException();
+            return await files.GetCollection(BaseUrl + $"/{Path}/{id}", pagination);
+        }
     }
 }

@@ -8,5 +8,12 @@ namespace RentmanSharp.Endpoint
     public class SubrentalEquipmentGroup : AbstractEndpoint<SubrentalEquipmentGroupItem>
     {
         public override string Path { get => "subrentalequipmentgroup"; }
+        public async Task<SubrentalEquipmentItem[]> GetLinkedSubrentalEquipmentCollectionEntity(uint id, Pagination? pagination = null)
+        {
+            SubrentalEquipment? subrentalEquipment = Connection.Instance.GetEndpoint(typeof(SubrentalEquipment)) as SubrentalEquipment;
+            if (subrentalEquipment == null)
+                throw new NotSupportedException();
+            return await subrentalEquipment.GetCollection(BaseUrl + $"/{Path}/{id}", pagination);
+        }
     }
 }

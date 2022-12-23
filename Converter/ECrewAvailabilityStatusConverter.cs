@@ -1,10 +1,10 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using static RentmanSharp.Entity.CrewAvilabilityItem;
+using static RentmanSharp.Entity.CrewAvailabilityItem;
 
 namespace RentmanSharp.Entity
 {
-    public class ECrewAvilabilityStatusConverter : JsonConverter<ECrewAvilabilityStatus>
+    public class ECrewAvailabilityStatusConverter : JsonConverter<ECrewAvilabilityStatus>
     {
         public override bool CanConvert(Type objectType)
         {

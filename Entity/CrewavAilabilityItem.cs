@@ -2,7 +2,7 @@
 
 namespace RentmanSharp.Entity
 {
-    public class CrewAvilabilityItem : AbstractEntity
+    public class CrewAvailabilityItem : AbstractEntity
     {
         public string? Last_Updater { get; set; }
         public string? Last_Updated { get; set; }
@@ -16,7 +16,7 @@ namespace RentmanSharp.Entity
         {
             return $"CrewAvilability\t{ID}\t{DisplayName} {Status}";
         }
-        [JsonConverter(typeof(ECrewAvilabilityStatusConverter))]
+        [JsonConverter(typeof(ECrewAvailabilityStatusConverter))]
         public enum ECrewAvilabilityStatus
         {
             Available,

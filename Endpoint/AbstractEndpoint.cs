@@ -15,6 +15,7 @@ namespace RentmanSharp.Endpoint
     {
         public abstract string Path { get; }
         private static string? token { get => Connection.Instance.Token; }
+        protected string? BaseUrl { get => $"{Constants.API_URL}"; }
         private static string? version { get => Constants.VERSION; }
         private static JsonSerializerOptions serializeOptions = new JsonSerializerOptions() { DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull };
         private static JsonSerializerOptions deserializeOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
@@ -25,11 +26,11 @@ namespace RentmanSharp.Endpoint
 
         public async Task<IEntity[]> GetCollectionEntity(Pagination? pagination = null)
         {
-            return (await this.GetCollection(pagination)).Cast<IEntity>().ToArray();
+            return (await this.GetCollection(BaseUrl, pagination)).Cast<IEntity>().ToArray();
         }
-        public async Task<T[]> GetCollection(Pagination? pagination = null)
+        internal async Task<T[]> GetCollection(string baseUrl, Pagination? pagination = null)
         {
-
+            baseUrl+=$"/{Path}";
             if (pagination == null && this.DefaultPagination != null)
                 pagination = this.DefaultPagination;
 
@@ -38,7 +39,6 @@ namespace RentmanSharp.Endpoint
 
 
             List<T> res= new List<T>();
-            string baseUrl = $"{Constants.API_URL}/{Path}";
             JsonSerializerOptions options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
             Response? resp = null;
             string? url = null;
