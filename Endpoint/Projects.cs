@@ -55,7 +55,7 @@ namespace RentmanSharp.Endpoint
         }
         public async Task<ProjectVehicle[]> GetLinkedProjectVehiclesCollectionEntity(uint id, Pagination? pagination = null)
         {
-            ProjectVehicles? projectVehicles = Connection.Instance.GetEndpoint(typeof(ProjectVehicles)) as ProjectVehicles
+            ProjectVehicles? projectVehicles = Connection.Instance.GetEndpoint(typeof(ProjectVehicles)) as ProjectVehicles;
             if (projectVehicles == null)
                 throw new NotSupportedException();
             return await projectVehicles.GetCollection(BaseUrl + $"/{Path}/{id}", pagination);

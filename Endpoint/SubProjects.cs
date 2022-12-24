@@ -7,7 +7,7 @@ namespace RentmanSharp.Endpoint
     /// </summary>
     public class SubProjects : AbstractEndpoint<SubProject>
     {
-        public override string Path { get => "subprojects";
+        public override string Path { get => "subprojects"; }
         public async Task<Entity.File[]> GetLinkedFilesCollectionEntity(uint id, Pagination? pagination = null)
         {
             Files? files = Connection.Instance.GetEndpoint(typeof(Files)) as Files;
