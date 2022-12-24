@@ -30,5 +30,5 @@ jobs:
       uses: brandedoutcast/publish-nuget@v2.5.2
       with:
           PROJECT_FILE_PATH: RentmanSharp.csproj
-          VERSION_FILE_PATH: RentmanSharp.dll
           NUGET_KEY: ${{secrets.NUGET_KEY}}
+          VERSION_REGEX: Version>(.*)<\/\s*
