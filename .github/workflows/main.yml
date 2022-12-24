@@ -32,3 +32,4 @@ jobs:
           PROJECT_FILE_PATH: RentmanSharp.csproj
           NUGET_KEY: ${{secrets.NUGET_KEY}}
           VERSION_REGEX: Version>(.*)<\/\s*
+          PACKAGE_NAME: RentmanSharp
