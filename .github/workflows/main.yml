@@ -25,10 +25,10 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.1
       with:
-        path: bin/
+        path: bin/Release/net6.0/RentmanSharp.dll
     - name: Publish RentmanSharp
       uses: brandedoutcast/publish-nuget@v2.5.2
       with:
           PROJECT_FILE_PATH: RentmanSharp.csproj
+          VERSION_FILE_PATH: RentmanSharp.dll
           NUGET_KEY: ${{secrets.NUGET_KEY}}
-          VERSION_REGEX: ^\s*<AssemblyVersion>(.*)<\/AssemblyVersion>$
