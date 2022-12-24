@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <AssemblyVersion>0.0.2</AssemblyVersion>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>$(AssemblyVersion)</Version>
+    <Version>0.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
