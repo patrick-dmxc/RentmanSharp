@@ -2,7 +2,7 @@
 
 namespace RentmanSharp.Entity
 {
-    public class Contactperson : AbstractEntity
+    public class ContactPerson : AbstractEntity
     {
         public int Longitude { get; set; }
         public int Latitude { get; set; }

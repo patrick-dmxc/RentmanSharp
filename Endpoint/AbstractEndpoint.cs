@@ -2,6 +2,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -20,7 +23,29 @@ namespace RentmanSharp.Endpoint
         private static JsonSerializerOptions serializeOptions = new JsonSerializerOptions() { DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull };
         private static JsonSerializerOptions deserializeOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
 
+        public event NotifyCollectionChangedEventHandler EntitiesChanged;
+
         private HttpClient? httpClient = null;
+
+        private ObservableCollection<T> entities = new ObservableCollection<T>();
+
+        public ReadOnlyCollection<T> Entities
+        {
+            get
+            {
+                return this.entities.ToList().AsReadOnly();
+            }
+        }
+
+        public AbstractEndpoint()
+        {
+            this.entities.CollectionChanged += Entities_CollectionChanged;
+        }
+
+        private void Entities_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            this.EntitiesChanged?.Invoke(this, e);
+        }
 
         protected virtual Pagination? DefaultPagination { get; }
 
@@ -66,7 +91,15 @@ namespace RentmanSharp.Endpoint
 #pragma warning restore CS8604
 
                     if (list != null)
+                    {
                         res.AddRange(list);
+                        foreach (IEntity l in list)
+                        {
+                            if (!entities.OfType<IEntity>().Any(e => e.ID == l.ID))
+                                entities.Add((T)l);
+                        }
+                        
+                    }
                 }
                 catch (JsonException e)
                 {
@@ -104,7 +137,11 @@ namespace RentmanSharp.Endpoint
         {            
             string url = $"{Constants.API_URL}/{Path}/{id}";
             Response resp = await this.PerformGetRequest(url);
-            return resp.Data.Deserialize<T>(deserializeOptions);
+            T entity = resp.Data.Deserialize<T>(deserializeOptions);
+            if (!entities.OfType<IEntity>().Any(e => e.ID == ((IEntity)entity).ID))
+                entities.Add(entity);
+
+            return entity;
         }
         protected async Task<T?> CreateItemInternal(T item)
         {
@@ -132,7 +169,7 @@ namespace RentmanSharp.Endpoint
                 if (httpClient == null)
                     httpClient = new HttpClient();
                 fillHeader(requestMessage);
-                var response = await httpClient.SendAsync(requestMessage);
+                var response = await httpClient.SendAsyncLimited(requestMessage);
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
@@ -154,7 +191,7 @@ namespace RentmanSharp.Endpoint
                     httpClient = new HttpClient();
                 fillHeader(requestMessage);
                 requestMessage.Content = new StringContent(JsonSerializer.Serialize(item, serializeOptions));
-                var response = await httpClient.SendAsync(requestMessage);
+                var response = await httpClient.SendAsyncLimited(requestMessage);
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
@@ -176,7 +213,7 @@ namespace RentmanSharp.Endpoint
                     httpClient = new HttpClient();
                 fillHeader(requestMessage);
                 requestMessage.Content = new StringContent(JsonSerializer.Serialize(item, serializeOptions));
-                var response = await httpClient.SendAsync(requestMessage);
+                var response = await httpClient.SendAsyncLimited(requestMessage);
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
@@ -197,7 +234,7 @@ namespace RentmanSharp.Endpoint
                 if (httpClient == null)
                     httpClient = new HttpClient();
                 fillHeader(requestMessage);
-                var response = await httpClient.SendAsync(requestMessage);
+                var response = await httpClient.SendAsyncLimited(requestMessage);
 
                 if (response.StatusCode == HttpStatusCode.OK)
                     return;

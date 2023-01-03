@@ -23,9 +23,9 @@ namespace RentmanSharp.Endpoint
         {
             await DeleteItemInternal(id);
         }
-        public async Task<Contactperson[]> GetLinkedContactpersonsCollectionEntity(uint id, Pagination? pagination = null)
+        public async Task<ContactPerson[]> GetLinkedContactpersonsCollectionEntity(uint id, Pagination? pagination = null)
         {
-            Contactpersons? contactpersons = Connection.Instance.GetEndpoint(typeof(Contactpersons)) as Contactpersons;
+            ContactPersons? contactpersons = Connection.Instance.GetEndpoint(typeof(ContactPersons)) as ContactPersons;
             if (contactpersons == null)
                 throw new NotSupportedException();
             return await contactpersons.GetCollection(BaseUrl + $"/{Path}/{id}", pagination);
