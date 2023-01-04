@@ -13,5 +13,9 @@
         {
             return $"{ID}\t{DisplayName}";
         }
+        public override int GetHashCode()
+        {
+            return (ID?.GetHashCode() ?? 0) + (updateHash?.GetHashCode() ?? 0);
+        }
     }
 }

@@ -1,21 +1,17 @@
-﻿using RentmanSharp.Entity;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using ConcurrentObservableCollections.ConcurrentObservableDictionary;
+using Microsoft.Extensions.Logging;
+using RentmanSharp.Entity;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Net;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Reflection;
-using System.Text;
 using System.Text.Json;
 
 namespace RentmanSharp.Endpoint
 {
     public abstract class AbstractEndpoint<T>: IEndpoint
     {
+        private readonly ILogger<AbstractEndpoint<T>> _logger;
         public abstract string Path { get; }
         private static string? token { get => Connection.Instance.Token; }
         protected string? BaseUrl { get => $"{Constants.API_URL}"; }
@@ -23,31 +19,33 @@ namespace RentmanSharp.Endpoint
         private static JsonSerializerOptions serializeOptions = new JsonSerializerOptions() { DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull };
         private static JsonSerializerOptions deserializeOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
 
-        public event NotifyCollectionChangedEventHandler EntitiesChanged;
+        public event EventHandler<DictionaryChangedEventArgs<uint, T>> EntitiesChanged;
 
         private HttpClient? httpClient = null;
 
-        private ObservableCollection<T> entities = new ObservableCollection<T>();
+        private ConcurrentObservableDictionary<uint,T> entities = new ConcurrentObservableDictionary<uint, T>();
 
         public ReadOnlyCollection<T> Entities
         {
             get
             {
-                return this.entities.ToList().AsReadOnly();
+                return this.entities.Select(d=>d.Value).ToList().AsReadOnly();
             }
         }
 
         public AbstractEndpoint()
         {
-            this.entities.CollectionChanged += Entities_CollectionChanged;
+            _logger = ApplicationLogging.CreateLogger<AbstractEndpoint<T>>();
+            _logger.Log(LogLevel.Debug, $"Initialize {this.GetType().Name}-Endpoint");
+            this.entities.CollectionChanged += Entities_CollectionChanged1;
         }
 
-        private void Entities_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        private void Entities_CollectionChanged1(object? sender, DictionaryChangedEventArgs<uint, T> e)
         {
             this.EntitiesChanged?.Invoke(this, e);
         }
 
-        protected virtual Pagination? DefaultPagination { get; }
+        protected virtual Pagination? DefaultPagination { get => new Pagination(300, 0); }
 
         public async Task<IEntity[]> GetCollectionEntity(Pagination? pagination = null)
         {
@@ -56,8 +54,7 @@ namespace RentmanSharp.Endpoint
         internal async Task<T[]> GetCollection(string baseUrl, Pagination? pagination = null)
         {
             baseUrl+=$"/{Path}";
-            if (pagination == null && this.DefaultPagination != null)
-                pagination = this.DefaultPagination;
+            
 
             if (httpClient == null)
                 httpClient = new HttpClient();
@@ -71,9 +68,12 @@ namespace RentmanSharp.Endpoint
             {
                 if (string.IsNullOrWhiteSpace(url))
                     url = baseUrl;
+                if (pagination == null && this.DefaultPagination != null)
+                    pagination = this.DefaultPagination;
+                else if (pagination != null)
+                    pagination = ((Pagination)pagination).Next();
 
-                if (pagination != null)
-                    url = baseUrl + ((Pagination)pagination).Next();
+                url = baseUrl + pagination;
 
                 if (string.IsNullOrWhiteSpace(url))
                     break;
@@ -96,7 +96,7 @@ namespace RentmanSharp.Endpoint
                         foreach (IEntity l in list)
                         {
                             if (!entities.OfType<IEntity>().Any(e => e.ID == l.ID))
-                                entities.Add((T)l);
+                                entities.AddOrUpdate(l.ID.Value, (T)l);
                         }
                         
                     }
@@ -139,7 +139,7 @@ namespace RentmanSharp.Endpoint
             Response resp = await this.PerformGetRequest(url);
             T entity = resp.Data.Deserialize<T>(deserializeOptions);
             if (!entities.OfType<IEntity>().Any(e => e.ID == ((IEntity)entity).ID))
-                entities.Add(entity);
+                entities.AddOrUpdate(((IEntity)entity).ID.Value, entity);
 
             return entity;
         }

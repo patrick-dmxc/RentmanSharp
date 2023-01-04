@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
 using RentmanSharp.Endpoint;
 using System.Collections.ObjectModel;
 
@@ -6,6 +7,7 @@ namespace RentmanSharp
 {
     public class Connection
     {
+        private ILogger<Connection> _logger;
         public string? Token { get; internal set; }
         private static Connection? instance;
         public static Connection Instance
@@ -17,22 +19,38 @@ namespace RentmanSharp
                 return instance;
             }
         }
+        public bool IsInitialized { get; private set; } = false;
 
         private List<IEndpoint> endpoints= new List<IEndpoint>();
         public IReadOnlyList<IEndpoint> Endpoints { get => endpoints.AsReadOnly(); }
 
         private Connection()
         {
+        }
+
+        public void Initialize(ILoggerFactory loggerFactory)
+        {
+            if (this.IsInitialized)
+                return;
+            ApplicationLogging.LoggerFactory = loggerFactory;
+            _logger= ApplicationLogging.CreateLogger<Connection>();
+            this.IsInitialized = true;
+            _logger.Log(LogLevel.Information, "Initialized");
             this.findEndPoints();
         }
 
         public void Connect(in string token)
         {
+
+            if (!this.IsInitialized)
+                throw new Exception("Not Initialized");
+
             if (!string.IsNullOrWhiteSpace(Token))
                 throw new NotSupportedException($"{nameof(Token)} already defined");
             if (string.IsNullOrWhiteSpace(token))
                 throw new ArgumentException($"{nameof(token)} isn't valid");
 
+            _logger.Log(LogLevel.Information, "Connect");
             Token = token;
         }
 
@@ -42,6 +60,8 @@ namespace RentmanSharp
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())
                 .Where(p => type.IsAssignableFrom(p) && !p.IsAbstract && !p.IsInterface);
+
+            _logger.Log(LogLevel.Information, "Search Endpoints");
             foreach (var t in types)
                 if (t.GetConstructors().Any(c => c.GetParameters().Count() == 0))
                 {

@@ -27,7 +27,7 @@ namespace RentmanSharp.Entity
 
         public override string ToString()
         {
-            return $"Contactperson\t{ID}\t{DisplayName} {Phone} {Email}";
+            return $"Contactperson\t{ID}\t{DisplayName} Phone:{Phone} MobilePhone:{Mobilephone} EMail:{Email}";
         }
     }
 }
