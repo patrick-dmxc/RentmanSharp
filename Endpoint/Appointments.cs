@@ -21,12 +21,12 @@ namespace RentmanSharp.Endpoint
             await DeleteItemInternal(id);
         }
 
-        public async Task<AppointmentCrewItem[]> GetLinkedAppointmentCrewCollectionEntity(uint id, Pagination? pagination = null)
+        public async Task<AppointmentCrewItem[]> GetLinkedAppointmentCrewCollectionEntity(uint id, Filter? filter = null)
         {
             AppointmentCrew? appointmentCrew = Connection.Instance.GetEndpoint(typeof(AppointmentCrew)) as AppointmentCrew;
             if (appointmentCrew == null)
                 throw new NotSupportedException();
-            return await appointmentCrew.GetCollection(BaseUrl+$"/{Path}/{id}", pagination);
+            return await appointmentCrew.GetCollection(BaseUrl + $"/{Path}/{id}", filter);
         }
     }
 }

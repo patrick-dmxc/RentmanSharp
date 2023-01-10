@@ -9,8 +9,8 @@ namespace RentmanSharp.Endpoint
     {
         public override string Path { get => "contacts"; }
 
-        private static Pagination DEFAULT_PAGINATION = new Pagination(100);
-        protected override Pagination? DefaultPagination => DEFAULT_PAGINATION;
+        public static Filter DEFAULT_FILTER = new Filter(new Pagination(100));
+        protected override Filter? DefaultFilter => DEFAULT_FILTER;
         public async Task<Contact?> CreateItem(Contact item)
         {
             return await CreateItemInternal(item);
@@ -23,19 +23,19 @@ namespace RentmanSharp.Endpoint
         {
             await DeleteItemInternal(id);
         }
-        public async Task<ContactPerson[]> GetLinkedContactpersonsCollectionEntity(uint id, Pagination? pagination = null)
+        public async Task<ContactPerson[]> GetLinkedContactpersonsCollectionEntity(uint id, Filter? filter = null)
         {
             ContactPersons? contactpersons = Connection.Instance.GetEndpoint(typeof(ContactPersons)) as ContactPersons;
             if (contactpersons == null)
                 throw new NotSupportedException();
-            return await contactpersons.GetCollection(BaseUrl + $"/{Path}/{id}", pagination);
+            return await contactpersons.GetCollection(BaseUrl + $"/{Path}/{id}", filter);
         }
-        public async Task<Entity.File[]> GetLinkedFilesCollectionEntity(uint id, Pagination? pagination = null)
+        public async Task<Entity.File[]> GetLinkedFilesCollectionEntity(uint id, Filter? filter = null)
         {
             Files? files = Connection.Instance.GetEndpoint(typeof(Files)) as Files;
             if (files == null)
                 throw new NotSupportedException();
-            return await files.GetCollection(BaseUrl + $"/{Path}/{id}", pagination);
+            return await files.GetCollection(BaseUrl + $"/{Path}/{id}", filter);
         }
     }
 }

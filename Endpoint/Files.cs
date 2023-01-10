@@ -7,7 +7,7 @@
     {
         public override string Path { get => "files"; }
 
-        private static Pagination DEFAULT_PAGINATION = new Pagination(100);
-        protected override Pagination? DefaultPagination => DEFAULT_PAGINATION;
+        public static Filter DEFAULT_FILTER = new Filter(new Pagination(100));
+        protected override Filter? DefaultFilter => DEFAULT_FILTER;
     }
 }

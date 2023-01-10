@@ -102,11 +102,17 @@ namespace RentmanSharp
                                     RequestsSend++;
                                     RequestsSendToday++;
                                     RequestsSendSecond++;
-                                    var res = await req.Item2.SendAsync(req.Item3);
-                                    PendingRequests--;
-                                    _logger.LogDebug($"Received Response({req.Item1}): StatusCode({res?.StatusCode})");
-                                    lock (responseQueue)
-                                        responseQueue.Add(new Tuple<ulong, HttpResponseMessage>(req.Item1, res));
+                                    try
+                                    {
+                                        HttpResponseMessage res = await req.Item2.SendAsync(req.Item3);
+                                        _logger.LogDebug($"Received Response({req.Item1}): StatusCode({res?.StatusCode})");
+                                        lock (responseQueue)
+                                            responseQueue.Add(new Tuple<ulong, HttpResponseMessage>(req.Item1, res));
+                                    }
+                                    finally
+                                    {
+                                        PendingRequests--;
+                                    }
                                 }
                             }
                             catch (Exception e)

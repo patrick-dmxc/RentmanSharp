@@ -26,7 +26,7 @@ namespace RentmanSharp.Entity
 
         public override string ToString()
         {
-            return $"File\t{ID}\t{DisplayName}";
+            return $"File\t{ID}\t{Path}";
         }
         [JsonConverter(typeof(EFilePreviewStatusConverter))]
         public enum EFilePreviewStatus

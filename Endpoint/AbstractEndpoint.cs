@@ -45,13 +45,13 @@ namespace RentmanSharp.Endpoint
             this.EntitiesChanged?.Invoke(this, e);
         }
 
-        protected virtual Pagination? DefaultPagination { get => new Pagination(300, 0); }
+        protected virtual Filter? DefaultFilter { get => new Filter(); }
 
-        public async Task<IEntity[]> GetCollectionEntity(Pagination? pagination = null)
+        public async Task<IEntity[]> GetCollectionEntity(Filter? filter = null)
         {
-            return (await this.GetCollection(BaseUrl, pagination)).Cast<IEntity>().ToArray();
+            return (await this.GetCollection(BaseUrl, filter)).Cast<IEntity>().ToArray();
         }
-        internal async Task<T[]> GetCollection(string baseUrl, Pagination? pagination = null)
+        internal async Task<T[]> GetCollection(string baseUrl, Filter? filter = null)
         {
             baseUrl+=$"/{Path}";
             
@@ -64,16 +64,17 @@ namespace RentmanSharp.Endpoint
             JsonSerializerOptions options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
             Response? resp = null;
             string? url = null;
+            bool firstRun = true;
             do
             {
                 if (string.IsNullOrWhiteSpace(url))
                     url = baseUrl;
-                if (pagination == null && this.DefaultPagination != null)
-                    pagination = this.DefaultPagination;
-                else if (pagination != null)
-                    pagination = ((Pagination)pagination).Next();
+                if (filter == null && this.DefaultFilter != null)
+                    filter = this.DefaultFilter;
+                else if (filter != null && !firstRun)
+                    filter = ((Filter)filter).Next();
 
-                url = baseUrl + pagination;
+                url = baseUrl + filter;
 
                 if (string.IsNullOrWhiteSpace(url))
                     break;
@@ -81,7 +82,7 @@ namespace RentmanSharp.Endpoint
                 resp = await this.PerformGetRequest(url);
 
 #pragma warning disable CS8604
-                pagination = resp;
+                filter = new Filter(resp, filter.FilterProperties);
 #pragma warning restore CS8604
 
                 try
@@ -113,6 +114,7 @@ namespace RentmanSharp.Endpoint
                     Console.WriteLine(e);
                     Console.WriteLine(resp.Data.ToString());
                 }
+                firstRun = false;
             }
             while (thereIsMore(resp));
 
