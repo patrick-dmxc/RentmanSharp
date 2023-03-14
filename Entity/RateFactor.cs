@@ -1,13 +1,34 @@
-﻿namespace RentmanSharp.Entity
+﻿using System.Text.Json.Serialization;
+
+namespace RentmanSharp.Entity
 {
     public class RateFactor : AbstractEntity
     {
-        public string? Rate_ID { get; set; }
-        public string? Name { get; set; }
-        public double From { get; set; }
-        public double To { get; set; }
-        public double Variable { get; set; }
-        public double Fixed { get; set; }
+        [JsonPropertyName("rate_id")]
+        public string? Rate_ID { get; }
+        [JsonPropertyName("name")]
+        public string? Name { get; }
+        [JsonPropertyName("from")]
+        public double From { get; }
+        [JsonPropertyName("to")]
+        public double To { get; }
+        [JsonPropertyName("variable")]
+        public double Variable { get; }
+        [JsonPropertyName("fixed")]
+        public double @Fixed { get; }
+
+        [JsonConstructor]
+        public RateFactor(uint? id, DateTime? created, DateTime? modified, string? creator, string? displayName,
+                          string? updateHash, string? rate_ID, string? name, double from, double to, double variable,
+                          double @fixed) : base(id, created, modified, creator, displayName, updateHash)
+        {
+            Rate_ID = rate_ID;
+            Name = name;
+            From = from;
+            To = to;
+            Variable = variable;
+            @Fixed = @fixed;
+        }
 
         public override string ToString()
         {

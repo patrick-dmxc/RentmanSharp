@@ -4,10 +4,25 @@ namespace RentmanSharp.Entity
 {
     public class Rate : AbstractEntity
     {
-        public string? Name { get; set; }
-        public bool Archived { get; set; }
-        public ERateType Type { get; set; }
-        public ERateSubType Subtype { get; set; }
+        [JsonPropertyName("name")]
+        public string? Name { get; }
+        [JsonPropertyName("archived")]
+        public bool Archived { get; }
+        [JsonPropertyName("type")]
+        public ERateType Type { get; }
+        [JsonPropertyName("subtype")]
+        public ERateSubType Subtype { get; }
+
+        [JsonConstructor]
+        public Rate(uint? id, DateTime? created, DateTime? modified, string? creator, string? displayName,
+                    string? updateHash, string? name, bool archived, ERateType type, ERateSubType subtype) 
+                    : base(id, created, modified, creator, displayName, updateHash)
+        {
+            Name = name;
+            Archived = archived;
+            Type = type;
+            Subtype = subtype;
+        }
 
         public override string ToString()
         {

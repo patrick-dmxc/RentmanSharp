@@ -5,14 +5,38 @@ namespace RentmanSharp.Entity
 {
     public class StockMovement : AbstractEntity
     {
-        public int? Amount { get; set; }
-        public string? Equipment { get; set; }
-        public string? ProjectEquipment { get; set; }
-        public string? Description { get; set; }
-        public string? Details { get; set; }
-        public DateTime? Date { get; set; }
-        public string? Stock_Location { get; set; }
-        public EStockMovementType Type { get; set; }
+        [JsonPropertyName("amount")]
+        public int? Amount { get; }
+        [JsonPropertyName("equipment")]
+        public string? Equipment { get; }
+        [JsonPropertyName("projectequipment")]
+        public string? ProjectEquipment { get; }
+        [JsonPropertyName("description")]
+        public string? Description { get; }
+        [JsonPropertyName("details")]
+        public string? Details { get; }
+        [JsonPropertyName("date")]
+        public DateTime? Date { get; }
+        [JsonPropertyName("stock_location")]
+        public string? Stock_Location { get; }
+        [JsonPropertyName("type")]
+        public EStockMovementType Type { get; }
+
+        [JsonConstructor]
+        public StockMovement(
+            uint? id, DateTime? created, DateTime? modified, string? creator, string? displayName, string? updateHash,
+            int? amount, string? equipment, string? projectEquipment, string? description, string? details,
+            DateTime? date, string? stock_Location, EStockMovementType type) : base(id, created, modified, creator, displayName, updateHash)
+        {
+            Amount = amount;
+            Equipment = equipment;
+            ProjectEquipment = projectEquipment;
+            Description = description;
+            Details = details;
+            Date = date;
+            Stock_Location = stock_Location;
+            Type = type;
+        }
 
         public override string ToString()
         {

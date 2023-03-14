@@ -57,7 +57,7 @@ namespace RentmanSharp.Endpoint
             
 
             if (httpClient == null)
-                httpClient = new HttpClient();
+                httpClient = HttpClientTools.CreateHttpCLient();
 
 
             List<T> res= new List<T>();
@@ -169,7 +169,7 @@ namespace RentmanSharp.Endpoint
             using (var requestMessage = new HttpRequestMessage(HttpMethod.Get, url))
             {
                 if (httpClient == null)
-                    httpClient = new HttpClient();
+                    httpClient = HttpClientTools.CreateHttpCLient();
                 fillHeader(requestMessage);
                 var response = await httpClient.SendAsyncLimited(requestMessage);
 
@@ -190,7 +190,7 @@ namespace RentmanSharp.Endpoint
             using (var requestMessage = new HttpRequestMessage(HttpMethod.Post, url))
             {
                 if (httpClient == null)
-                    httpClient = new HttpClient();
+                    httpClient = HttpClientTools.CreateHttpCLient();
                 fillHeader(requestMessage);
                 requestMessage.Content = new StringContent(JsonSerializer.Serialize(item, serializeOptions));
                 var response = await httpClient.SendAsyncLimited(requestMessage);
@@ -212,7 +212,7 @@ namespace RentmanSharp.Endpoint
             using (var requestMessage = new HttpRequestMessage(HttpMethod.Put, url))
             {
                 if (httpClient == null)
-                    httpClient = new HttpClient();
+                    httpClient = HttpClientTools.CreateHttpCLient();
                 fillHeader(requestMessage);
                 requestMessage.Content = new StringContent(JsonSerializer.Serialize(item, serializeOptions));
                 var response = await httpClient.SendAsyncLimited(requestMessage);
@@ -234,7 +234,7 @@ namespace RentmanSharp.Endpoint
             using (var requestMessage = new HttpRequestMessage(HttpMethod.Delete, url))
             {
                 if (httpClient == null)
-                    httpClient = new HttpClient();
+                    httpClient = HttpClientTools.CreateHttpCLient();
                 fillHeader(requestMessage);
                 var response = await httpClient.SendAsyncLimited(requestMessage);
 

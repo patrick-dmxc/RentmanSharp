@@ -5,12 +5,32 @@ namespace RentmanSharp.Entity
 {
     public class Folder : AbstractEntity
     {
-        public string? Parent { get; set; }
-        public string? Name { get; set; }
-        public int Order { get; set; }
-        public EFolderItemType? ItemType { get; set; }
-        public string? Path { get; set; }
-        public JsonElement Custom { get; set; }
+
+        [JsonPropertyName("parent")]
+        public string? Parent { get; }
+        [JsonPropertyName("name")]
+        public string? Name { get; }
+        [JsonPropertyName("order")]
+        public int Order { get; }
+        [JsonPropertyName("itemtype")]
+        public EFolderItemType? ItemType { get; }
+        [JsonPropertyName("path")]
+        public string? Path { get; }
+        [JsonPropertyName("custom")]
+        public JsonElement Custom { get; }
+
+        [JsonConstructor]
+        public Folder(uint? id, DateTime? created, DateTime? modified, string? creator, string? displayName,
+                      string? updateHash, string? parent, string? name, int order, EFolderItemType? itemType,
+                      string? path, JsonElement custom) : base(id, created, modified, creator, displayName, updateHash)
+        {
+            Parent = parent;
+            Name = name;
+            Order = order;
+            ItemType = itemType;
+            Path = path;
+            Custom = custom;
+        }
 
         public override string ToString()
         {

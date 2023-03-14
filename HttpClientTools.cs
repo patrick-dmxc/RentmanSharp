@@ -4,7 +4,17 @@ namespace RentmanSharp
 {
     public static class HttpClientTools
     {
-        private static readonly ILogger _logger = ApplicationLogging.LoggerFactory.CreateLogger(typeof(HttpClientTools));
+        private static ILogger? _logger;
+        private static ILogger logger
+        {
+            get
+            {
+                if (_logger == null)
+                    _logger = ApplicationLogging.LoggerFactory.CreateLogger(typeof(HttpClientTools));
+
+                return _logger;
+            }
+        }
 
         private static ulong queueID = 0;
         private static Queue<Tuple<ulong, HttpClient, HttpRequestMessage>> requestQueue = new Queue<Tuple<ulong, HttpClient, HttpRequestMessage>>();
@@ -23,12 +33,17 @@ namespace RentmanSharp
         public static ulong RequestsSend { get; private set; }
 
 
+        public static HttpClient CreateHttpCLient()
+        {
+            return new HttpClient(new HttpClientHandler(), false);
+        }
+
         public static async Task<HttpResponseMessage> SendAsyncLimited(this HttpClient httpClient, HttpRequestMessage request)
         {
             var req = new Tuple<ulong, HttpClient, HttpRequestMessage>(queueID++, httpClient, request);
             try
             {
-                _logger.LogDebug($"Add Request to Queue: {request.RequestUri} Content: {request.Content}");
+                logger.LogDebug($"Add Request to Queue: {request.RequestUri} Content: {request.Content}");
                 RequestsWaitForProcess++;
                 lock (requestQueue)
                     requestQueue.Enqueue(req);
@@ -50,7 +65,7 @@ namespace RentmanSharp
             }
             catch(Exception e) 
             {
-                _logger.LogError(e, string.Empty);
+                logger.LogError(e, string.Empty);
             }
             throw new Exception("Cold not receive any response");
         }
@@ -97,7 +112,7 @@ namespace RentmanSharp
 
                                 if (req != null)
                                 {
-                                    _logger.LogDebug($"Send Request({req.Item1}): {req.Item3.RequestUri} Content: {req.Item3.Content}");
+                                    logger.LogDebug($"Send Request({req.Item1}): {req.Item3.RequestUri} Content: {req.Item3.Content}");
                                     PendingRequests++;
                                     RequestsSend++;
                                     RequestsSendToday++;
@@ -105,7 +120,7 @@ namespace RentmanSharp
                                     try
                                     {
                                         HttpResponseMessage res = await req.Item2.SendAsync(req.Item3);
-                                        _logger.LogDebug($"Received Response({req.Item1}): StatusCode({res?.StatusCode})");
+                                        logger.LogDebug($"Received Response({req.Item1}): StatusCode({res?.StatusCode})");
                                         lock (responseQueue)
                                             responseQueue.Add(new Tuple<ulong, HttpResponseMessage>(req.Item1, res));
                                     }
@@ -117,7 +132,7 @@ namespace RentmanSharp
                             }
                             catch (Exception e)
                             {
-                                _logger.LogError(e, string.Empty);
+                                logger.LogError(e, string.Empty);
                             }
                         });
                     }
