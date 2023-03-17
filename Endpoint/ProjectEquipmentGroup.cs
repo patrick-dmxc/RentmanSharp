@@ -10,9 +10,7 @@ namespace RentmanSharp.Endpoint
         public override string Path { get => "projectequipmentgroup"; }
         public async Task<ProjectEquipmentItem[]> GetLinkedProjectEquipmentCollectionEntity(uint id, Filter? filter = null)
         {
-            ProjectEquipment? projectEquipment = Connection.Instance.GetEndpoint(typeof(ProjectEquipment)) as ProjectEquipment;
-            if (projectEquipment == null)
-                throw new NotSupportedException();
+            ProjectEquipment projectEquipment = Connection.Instance.GetEndpoint<ProjectEquipment>();
             return await projectEquipment.GetCollection(BaseUrl + $"/{Path}/{id}", filter);
         }
     }

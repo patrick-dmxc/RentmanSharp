@@ -23,9 +23,7 @@ namespace RentmanSharp.Endpoint
 
         public async Task<AppointmentCrewItem[]> GetLinkedAppointmentCrewCollectionEntity(uint id, Filter? filter = null)
         {
-            AppointmentCrew? appointmentCrew = Connection.Instance.GetEndpoint(typeof(AppointmentCrew)) as AppointmentCrew;
-            if (appointmentCrew == null)
-                throw new NotSupportedException();
+            AppointmentCrew appointmentCrew = Connection.Instance.GetEndpoint<AppointmentCrew>();
             return await appointmentCrew.GetCollection(BaseUrl + $"/{Path}/{id}", filter);
         }
     }

@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-namespace RentmanSharp
+﻿namespace RentmanSharp
 {
     public class Response
     {

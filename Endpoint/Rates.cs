@@ -10,9 +10,7 @@ namespace RentmanSharp.Endpoint
         public override string Path { get => "rates"; }
         public async Task<RateFactor[]> GetLinkedRateFactorsCollectionEntity(uint id, Filter? filter = null)
         {
-            RateFactors? rateFactors = Connection.Instance.GetEndpoint(typeof(RateFactors)) as RateFactors;
-            if (rateFactors == null)
-                throw new NotSupportedException();
+            RateFactors rateFactors = Connection.Instance.GetEndpoint<RateFactors>();
             return await rateFactors.GetCollection(BaseUrl + $"/{Path}/{id}", filter);
         }
     }

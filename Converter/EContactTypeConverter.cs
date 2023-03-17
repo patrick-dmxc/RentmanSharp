@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using static RentmanSharp.Entity.Contact;
+﻿using static RentmanSharp.Entity.Contact;
 
 namespace RentmanSharp.Entity
 {

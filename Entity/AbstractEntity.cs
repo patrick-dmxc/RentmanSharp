@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace RentmanSharp.Entity
+﻿namespace RentmanSharp.Entity
 {
     public abstract class AbstractEntity : IEntity
     {

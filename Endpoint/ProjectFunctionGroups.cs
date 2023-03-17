@@ -10,9 +10,7 @@ namespace RentmanSharp.Endpoint
         public override string Path { get => "projectfunctiongroups"; }
         public async Task<ProjectFunction[]> GetLinkedProjectFunctionsCollectionEntity(uint id, Filter? filter = null)
         {
-            ProjectFunctions? projectFunctions = Connection.Instance.GetEndpoint(typeof(ProjectFunctions)) as ProjectFunctions;
-            if (projectFunctions == null)
-                throw new NotSupportedException();
+            ProjectFunctions projectFunctions = Connection.Instance.GetEndpoint<ProjectFunctions>();
             return await projectFunctions.GetCollection(BaseUrl + $"/{Path}/{id}", filter);
         }
     }

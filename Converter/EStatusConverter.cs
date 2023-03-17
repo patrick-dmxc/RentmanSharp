@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using static RentmanSharp.Entity.ProjectRequest;
+﻿using static RentmanSharp.Entity.ProjectRequest;
 
 namespace RentmanSharp.Entity
 {

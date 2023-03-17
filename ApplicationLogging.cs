@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace RentmanSharp
+﻿namespace RentmanSharp
 {
     /// <summary>
     /// Shared logger

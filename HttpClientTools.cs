@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace RentmanSharp
+﻿namespace RentmanSharp
 {
     public static class HttpClientTools
     {

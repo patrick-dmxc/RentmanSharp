@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using static RentmanSharp.Entity.EquipmentItem;
+﻿using static RentmanSharp.Entity.EquipmentItem;
 
 namespace RentmanSharp.Entity
 {

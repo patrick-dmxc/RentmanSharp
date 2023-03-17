@@ -1,11 +1,7 @@
 ﻿using ConcurrentObservableCollections.ConcurrentObservableDictionary;
-using Microsoft.Extensions.Logging;
 using RentmanSharp.Entity;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Net;
 using System.Net.Http.Headers;
-using System.Text.Json;
 
 namespace RentmanSharp.Endpoint
 {

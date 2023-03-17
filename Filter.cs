@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace RentmanSharp
+﻿namespace RentmanSharp
 {
     public class Filter
     {

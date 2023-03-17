@@ -13,37 +13,27 @@ namespace RentmanSharp.Endpoint
         protected override Filter? DefaultFilter => DEFAULT_FILTER;
         public async Task<EquipmentSetsContentItem[]> GetLinkedEquipmentSetsContentCollectionEntity(uint id, Filter? filter = null)
         {
-            EquipmentSetsContent? equipmentSetsContent = Connection.Instance.GetEndpoint(typeof(EquipmentSetsContent)) as EquipmentSetsContent;
-            if (equipmentSetsContent == null)
-                throw new NotSupportedException();
+            EquipmentSetsContent equipmentSetsContent = Connection.Instance.GetEndpoint<EquipmentSetsContent>();
             return await equipmentSetsContent.GetCollection(BaseUrl + $"/{Path}/{id}", filter);
         }
         public async Task<SerialNumber[]> GetLinkedSerialNumbersCollectionEntity(uint id, Filter? filter = null)
         {
-            SerialNumbers? serialNumbers = Connection.Instance.GetEndpoint(typeof(SerialNumbers)) as SerialNumbers;
-            if (serialNumbers == null)
-                throw new NotSupportedException();
+            SerialNumbers serialNumbers = Connection.Instance.GetEndpoint<SerialNumbers>();
             return await serialNumbers.GetCollection(BaseUrl + $"/{Path}/{id}", filter);
         }
         public async Task<Repair[]> GetLinkedRepairsCollectionEntity(uint id, Filter? filter = null)
         {
-            Repairs? repairs = Connection.Instance.GetEndpoint(typeof(Repairs)) as Repairs;
-            if (repairs == null)
-                throw new NotSupportedException();
+            Repairs repairs = Connection.Instance.GetEndpoint<Repairs>();
             return await repairs.GetCollection(BaseUrl + $"/{Path}/{id}", filter);
         }
         public async Task<StockMovement[]> GetLinkedStockMovementsCollectionEntity(uint id, Filter? filter = null)
         {
-            StockMovements? stockMovements = Connection.Instance.GetEndpoint(typeof(StockMovements)) as StockMovements;
-            if (stockMovements == null)
-                throw new NotSupportedException();
+            StockMovements stockMovements = Connection.Instance.GetEndpoint<StockMovements>();
             return await stockMovements.GetCollection(BaseUrl + $"/{Path}/{id}", filter);
         }
         public async Task<Accessorie[]> GetLinkedAccessoriesCollectionEntity(uint id, Filter? filter = null)
         {
-            Accessories? accessories = Connection.Instance.GetEndpoint(typeof(Accessories)) as Accessories;
-            if (accessories == null)
-                throw new NotSupportedException();
+            Accessories accessories = Connection.Instance.GetEndpoint<Accessories>();
             return await accessories.GetCollection(BaseUrl + $"/{Path}/{id}", filter);
         }
     }

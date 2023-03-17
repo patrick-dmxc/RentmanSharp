@@ -25,16 +25,12 @@ namespace RentmanSharp.Endpoint
         }
         public async Task<ContactPerson[]> GetLinkedContactpersonsCollectionEntity(uint id, Filter? filter = null)
         {
-            ContactPersons? contactpersons = Connection.Instance.GetEndpoint(typeof(ContactPersons)) as ContactPersons;
-            if (contactpersons == null)
-                throw new NotSupportedException();
+            ContactPersons contactpersons = Connection.Instance.GetEndpoint<ContactPersons>();
             return await contactpersons.GetCollection(BaseUrl + $"/{Path}/{id}", filter);
         }
         public async Task<Entity.File[]> GetLinkedFilesCollectionEntity(uint id, Filter? filter = null)
         {
-            Files? files = Connection.Instance.GetEndpoint(typeof(Files)) as Files;
-            if (files == null)
-                throw new NotSupportedException();
+            Files files = Connection.Instance.GetEndpoint<Files>();
             return await files.GetCollection(BaseUrl + $"/{Path}/{id}", filter);
         }
     }

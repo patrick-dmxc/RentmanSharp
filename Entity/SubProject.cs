@@ -1,7 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-
-namespace RentmanSharp.Entity
+﻿namespace RentmanSharp.Entity
 {
     public class SubProject : AbstractEntity
     {

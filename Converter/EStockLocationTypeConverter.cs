@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using static RentmanSharp.Entity.StockLocation;
+﻿using static RentmanSharp.Entity.StockLocation;
 
 namespace RentmanSharp.Entity
 {

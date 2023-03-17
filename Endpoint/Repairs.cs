@@ -10,9 +10,7 @@ namespace RentmanSharp.Endpoint
         public override string Path { get => "repairs"; }
         public async Task<Entity.File[]> GetLinkedFilesCollectionEntity(uint id, Filter? filter = null)
         {
-            Files? files = Connection.Instance.GetEndpoint(typeof(Files)) as Files;
-            if (files == null)
-                throw new NotSupportedException();
+            Files files = Connection.Instance.GetEndpoint<Files>();
             return await files.GetCollection(BaseUrl + $"/{Path}/{id}", filter);
         }
     }

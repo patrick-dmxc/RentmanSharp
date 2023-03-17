@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Win32;
-using RentmanSharp.Endpoint;
-using System.Collections.ObjectModel;
+﻿using RentmanSharp.Endpoint;
 
 namespace RentmanSharp
 {
@@ -21,7 +18,7 @@ namespace RentmanSharp
         }
         public bool IsInitialized { get; private set; } = false;
 
-        private List<IEndpoint> endpoints= new List<IEndpoint>();
+        private List<IEndpoint> endpoints = new List<IEndpoint>();
         public IReadOnlyList<IEndpoint> Endpoints { get => endpoints.AsReadOnly(); }
 
         private Connection()
@@ -33,7 +30,7 @@ namespace RentmanSharp
             if (this.IsInitialized)
                 return;
             ApplicationLogging.LoggerFactory = loggerFactory;
-            _logger= ApplicationLogging.CreateLogger<Connection>();
+            _logger = ApplicationLogging.CreateLogger<Connection>();
             this.IsInitialized = true;
             _logger.Log(LogLevel.Information, "Initialized");
             this.findEndPoints();
@@ -70,13 +67,13 @@ namespace RentmanSharp
                         endpoints.Add(instance);
                 }
         }
-        public IEndpoint GetEndpoint(Type type)
+        public T GetEndpoint<T>() where T : IEndpoint
         {
             if (this.endpoints == null)
                 throw new NullReferenceException();
-            var result = this.endpoints.FirstOrDefault(t => t.GetType() == type);
+            IEndpoint? result = this.endpoints.FirstOrDefault(t => t.GetType() == typeof(T));
             if (result != null)
-                return result;
+                return (T)result;
 
             throw new NullReferenceException();
         }

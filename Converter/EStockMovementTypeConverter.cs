@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using static RentmanSharp.Entity.StockMovement;
+﻿using static RentmanSharp.Entity.StockMovement;
 
 namespace RentmanSharp.Entity
 {
