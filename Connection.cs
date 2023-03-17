@@ -4,7 +4,7 @@ namespace RentmanSharp
 {
     public class Connection
     {
-        private ILogger<Connection> _logger;
+        private ILogger<Connection>? _logger = null;
         public string? Token { get; internal set; }
         private static Connection? instance;
         public static Connection Instance
@@ -32,7 +32,7 @@ namespace RentmanSharp
             ApplicationLogging.LoggerFactory = loggerFactory;
             _logger = ApplicationLogging.CreateLogger<Connection>();
             this.IsInitialized = true;
-            _logger.Log(LogLevel.Information, "Initialized");
+            _logger?.Log(LogLevel.Information, "Initialized");
             this.findEndPoints();
         }
 
@@ -47,7 +47,7 @@ namespace RentmanSharp
             if (string.IsNullOrWhiteSpace(token))
                 throw new ArgumentException($"{nameof(token)} isn't valid");
 
-            _logger.Log(LogLevel.Information, "Connect");
+            _logger?.Log(LogLevel.Information, "Connect");
             Token = token;
         }
 
@@ -58,7 +58,7 @@ namespace RentmanSharp
                 .SelectMany(s => s.GetTypes())
                 .Where(p => type.IsAssignableFrom(p) && !p.IsAbstract && !p.IsInterface);
 
-            _logger.Log(LogLevel.Information, "Search Endpoints");
+            _logger?.Log(LogLevel.Information, "Search Endpoints");
             foreach (var t in types)
                 if (t.GetConstructors().Any(c => c.GetParameters().Count() == 0))
                 {
@@ -69,11 +69,15 @@ namespace RentmanSharp
         }
         public T GetEndpoint<T>() where T : IEndpoint
         {
+            return (T)GetEndpoint(typeof(T));
+        }
+        public IEndpoint GetEndpoint(Type type)
+        {
             if (this.endpoints == null)
                 throw new NullReferenceException();
-            IEndpoint? result = this.endpoints.FirstOrDefault(t => t.GetType() == typeof(T));
+            IEndpoint? result = this.endpoints.FirstOrDefault(t => t.GetType() == type);
             if (result != null)
-                return (T)result;
+                return result;
 
             throw new NullReferenceException();
         }

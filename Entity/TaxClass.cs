@@ -3,16 +3,16 @@
     public class TaxClass : AbstractEntity
     {
         [JsonPropertyName("name")]
-        public string? Name { get; }
+        public string Name { get; }
         [JsonPropertyName("code")]
-        public string? Code { get; }
+        public string Code { get; }
         [JsonPropertyName("type")]
         public ETaxClassType Type { get; }
 
         [JsonConstructor]
         public TaxClass(
-            uint? id, DateTime? created, DateTime? modified, string? creator, string? displayName, string? updateHash,
-            string? name, string? code, ETaxClassType type) : base(id, created, modified, creator, displayName, updateHash)
+            uint id, DateTime created, DateTime modified, string creator, string displayName, string updateHash,
+            string name, string code, ETaxClassType type) : base(id, created, modified, creator, displayName, updateHash)
         {
             Name = name;
             Code = code;

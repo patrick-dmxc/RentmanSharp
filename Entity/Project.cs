@@ -5,42 +5,42 @@ namespace RentmanSharp.Entity
     public class Project : AbstractEntity
     {
         [JsonPropertyName("location")]
-        public string? Location { get; }
+        public string Location { get; }
         [JsonPropertyName("refundabledeposit")]
         public double RefundableDeposit { get; }
         [JsonPropertyName("deposit_status")]
         public EDepositStatus Deposit_Status { get; }
         [JsonPropertyName("customer")]
-        public string? Customer { get; }
+        public string Customer { get; }
         [JsonPropertyName("loc_contact")]
-        public string? Loc_Contact { get; }
+        public string Loc_Contact { get; }
         [JsonPropertyName("cust_contact")]
-        public string? Cust_Contact { get; }
+        public string Cust_Contact { get; }
         [JsonPropertyName("project_type")]
-        public string? Project_Type { get; }
+        public string Project_Type { get; }
         [JsonPropertyName("name")]
-        public string? Name { get; }
+        public string Name { get; }
         [JsonPropertyName("reference")]
-        public string? Reference { get; }
+        public string Reference { get; }
         [JsonPropertyName("number")]
         public int Number { get; }
         [JsonPropertyName("account_manager")]
-        public string? Account_Manager { get; }
+        public string Account_Manager { get; }
         [JsonPropertyName("color")]
         [JsonConverter(typeof(Converter.ColorConverter))]
         public Color Color { get; }
         [JsonPropertyName("already_invoiced")]
         public double Already_Invoiced { get; }
         [JsonPropertyName("tags")]
-        public string? Tags { get; }
+        public string Tags { get; }
         [JsonPropertyName("usageperiod_start")]
-        public DateTime? Usageperiod_Start { get; }
+        public DateTime Usageperiod_Start { get; }
         [JsonPropertyName("usageperiod_end")]
-        public DateTime? Usageperiod_End { get; }
+        public DateTime Usageperiod_End { get; }
         [JsonPropertyName("planperiod_start")]
-        public DateTime? Planperiod_Start { get; }
+        public DateTime Planperiod_Start { get; }
         [JsonPropertyName("planperiod_end")]
-        public DateTime? Planperiod_End { get; }
+        public DateTime Planperiod_End { get; }
         [JsonPropertyName("volume")]
         public double Volume { get; }
         [JsonPropertyName("weight")]
@@ -50,21 +50,21 @@ namespace RentmanSharp.Entity
         [JsonPropertyName("current")]
         public double Current { get; }
         [JsonPropertyName("equipment_period_from")]
-        public DateTime? Equipment_Period_From { get; }
+        public DateTime Equipment_Period_From { get; }
         [JsonPropertyName("equipment_period_to")]
-        public DateTime? Equipment_Period_To { get; }
+        public DateTime Equipment_Period_To { get; }
         [JsonPropertyName("purchasecosts")]
         public double PurchaseCosts { get; }
         [JsonPropertyName("custom")]
         public JsonElement Custom { get; }
 
-        public Project(uint? id, DateTime? created, DateTime? modified, string? creator, string? displayName,
-                       string? updateHash, string? location, double refundableDeposit, EDepositStatus deposit_Status,
-                       string? customer, string? loc_Contact, string? cust_Contact, string? project_Type, string? name,
-                       string? reference, int number, string? account_Manager, Color color, double already_Invoiced,
-                       string? tags, DateTime? usageperiod_Start, DateTime? usageperiod_End, DateTime? planperiod_Start,
-                       DateTime? planperiod_End, double volume, double weight, double power, double current,
-                       DateTime? equipment_Period_From, DateTime? equipment_Period_To, double purchaseCosts,
+        public Project(uint id, DateTime created, DateTime modified, string creator, string displayName,
+                       string updateHash, string location, double refundableDeposit, EDepositStatus deposit_Status,
+                       string customer, string loc_Contact, string cust_Contact, string project_Type, string name,
+                       string reference, int number, string account_Manager, Color color, double already_Invoiced,
+                       string tags, DateTime usageperiod_Start, DateTime usageperiod_End, DateTime planperiod_Start,
+                       DateTime planperiod_End, double volume, double weight, double power, double current,
+                       DateTime equipment_Period_From, DateTime equipment_Period_To, double purchaseCosts,
                        JsonElement custom) : base(id, created, modified, creator, displayName, updateHash)
         {
             Location = location;

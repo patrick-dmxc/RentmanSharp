@@ -90,10 +90,12 @@ namespace RentmanSharp.Endpoint
                     if (list != null)
                     {
                         res.AddRange(list);
-                        foreach (IEntity l in list)
+                        foreach (IEntity? l in list)
                         {
+                            if (l == null)
+                                continue;
                             if (!entities.OfType<IEntity>().Any(e => e.ID == l.ID))
-                                entities.AddOrUpdate(l.ID.Value, (T)l);
+                                entities.AddOrUpdate(l.ID, (T)l);
                         }
                         
                     }
@@ -137,7 +139,7 @@ namespace RentmanSharp.Endpoint
             Response resp = await this.PerformGetRequest(url);
             T entity = resp.Data.Deserialize<T>(deserializeOptions);
             if (!entities.OfType<IEntity>().Any(e => e.ID == ((IEntity)entity).ID))
-                entities.AddOrUpdate(((IEntity)entity).ID.Value, entity);
+                entities.AddOrUpdate(((IEntity)entity).ID, entity);
 
             return entity;
         }

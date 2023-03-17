@@ -7,7 +7,7 @@
         [JsonPropertyName("base")]
         public double Base { get; }
         [JsonPropertyName("ledger")]
-        public string? Ledger { get; }
+        public string Ledger { get; }
         [JsonPropertyName("vatrate")]
         public double VatRate { get; }
         [JsonPropertyName("vatamount")]
@@ -15,12 +15,12 @@
         [JsonPropertyName("priceincl")]
         public double PriceIncl { get; }
         [JsonPropertyName("ledgercode")]
-        public string? LedgerCode { get; }
+        public string LedgerCode { get; }
 
         [JsonConstructor]
-        public InvoiceLine(uint? id, DateTime? created, DateTime? modified, string? creator, string? displayName,
-            string? updateHash, int item, double @base, string? ledger, double vatRate, double vatAmount,
-            double priceIncl, string? ledgerCode) : base(id, created, modified, creator, displayName, updateHash)
+        public InvoiceLine(uint id, DateTime created, DateTime modified, string creator, string displayName,
+            string updateHash, int item, double @base, string ledger, double vatRate, double vatAmount,
+            double priceIncl, string ledgerCode) : base(id, created, modified, creator, displayName, updateHash)
         {
             Item = item;
             Base = @base;

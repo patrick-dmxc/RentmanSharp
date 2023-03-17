@@ -3,32 +3,32 @@
     public class ProjectVehicle : AbstractEntity
     {
         [JsonPropertyName("name")]
-        public string? Name { get; }
+        public string Name { get; }
         [JsonPropertyName("cost_rate")]
-        public string? Cost_Rate { get; }
+        public string Cost_Rate { get; }
         [JsonPropertyName("function")]
-        public string? Function { get; }
+        public string Function { get; }
         [JsonPropertyName("transport")]
-        public string? Transport { get; }
+        public string Transport { get; }
         [JsonPropertyName("vehicle")]
-        public string? Vehicle { get; }
+        public string Vehicle { get; }
         [JsonPropertyName("planningperiod_start")]
-        public DateTime? Planningperiod_Start { get; }
+        public DateTime Planningperiod_Start { get; }
         [JsonPropertyName("planningperiod_end")]
-        public DateTime? Planningperiod_End { get; }
+        public DateTime Planningperiod_End { get; }
         [JsonPropertyName("remark")]
-        public string? Remark { get; }
+        public string Remark { get; }
         [JsonPropertyName("remark_planner")]
-        public string? Remark_Planner { get; }
+        public string Remark_Planner { get; }
         [JsonPropertyName("costs")]
         public double Costs { get; }
         [JsonPropertyName("custom")]
         public JsonElement Custom { get; }
 
         [JsonConstructor]
-        public ProjectVehicle(uint? id, DateTime? created, DateTime? modified, string? creator, string? displayName,
-            string? updateHash, string? name, string? cost_Rate, string? function, string? transport, string? vehicle,
-            DateTime? planningperiod_Start, DateTime? planningperiod_End, string? remark, string? remark_Planner,
+        public ProjectVehicle(uint id, DateTime created, DateTime modified, string creator, string displayName,
+            string updateHash, string name, string cost_Rate, string function, string transport, string vehicle,
+            DateTime planningperiod_Start, DateTime planningperiod_End, string remark, string remark_Planner,
             double costs, JsonElement custom) : base(id, created, modified, creator, displayName, updateHash)
         {
             Name = name;

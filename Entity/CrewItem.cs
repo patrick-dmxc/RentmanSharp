@@ -3,74 +3,74 @@
     public class CrewItem : AbstractEntity
     {
         [JsonPropertyName("folder")]
-        public string? Folder { get; }
+        public string Folder { get; }
         [JsonPropertyName("street")]
-        public string? Street { get; }
+        public string Street { get; }
         [JsonPropertyName("housenumber")]
-        public string? Housenumber { get; }
+        public string Housenumber { get; }
         [JsonPropertyName("city")]
-        public string? City { get; }
+        public string City { get; }
         [JsonPropertyName("postal_code")]
-        public string? Postal_code { get; }
+        public string Postal_code { get; }
         [JsonPropertyName("addressline2")]
-        public string? Addressline2 { get; }
+        public string Addressline2 { get; }
         [JsonPropertyName("state")]
-        public string? State { get; }
+        public string State { get; }
         [JsonPropertyName("country")]
-        public string? Country { get; }
+        public string Country { get; }
         [JsonPropertyName("birthdate")]
-        public string? Birthdate { get; }
+        public string Birthdate { get; }
         [JsonPropertyName("passport_number")]
-        public string? Passport_Number { get; }
+        public string Passport_Number { get; }
         [JsonPropertyName("emergency_contact")]
-        public string? Emergency_Contact { get; }
+        public string Emergency_Contact { get; }
         [JsonPropertyName("remark")]
-        public string? Remark { get; }
+        public string Remark { get; }
         [JsonPropertyName("driving_license")]
-        public string? Driving_License { get; }
+        public string Driving_License { get; }
         [JsonPropertyName("contract")]
         public int Contract { get; }
         [JsonPropertyName("bank")]
-        public string? Bank { get; }
+        public string Bank { get; }
         [JsonPropertyName("contract_date")]
-        public string? Contract_Date { get; }
+        public string Contract_Date { get; }
         [JsonPropertyName("company_name")]
-        public string? Company_Name { get; }
+        public string Company_Name { get; }
         [JsonPropertyName("vat_code")]
-        public string? VAT_Code { get; }
+        public string VAT_Code { get; }
         [JsonPropertyName("coc_code")]
-        public string? COC_Code { get; }
+        public string COC_Code { get; }
         [JsonPropertyName("firstname")]
-        public string? Firstname { get; }
+        public string Firstname { get; }
         [JsonPropertyName("middle_name")]
-        public string? Middle_name { get; }
+        public string Middle_name { get; }
         [JsonPropertyName("lastname")]
-        public string? Lastname { get; }
+        public string Lastname { get; }
         [JsonPropertyName("email")]
-        public string? Email { get; }
+        public string Email { get; }
         [JsonPropertyName("phone")]
-        public string? Phone { get; }
+        public string Phone { get; }
         [JsonPropertyName("active")]
         public bool Active { get; }
         [JsonPropertyName("avatar")]
-        public string? Avatar { get; }
+        public string Avatar { get; }
         [JsonPropertyName("vt_fullname")]
-        public string? VT_Fullname { get; }
+        public string VT_Fullname { get; }
         [JsonPropertyName("function")]
-        public string? Function { get; }
+        public string Function { get; }
         [JsonPropertyName("tags")]
-        public string? Tags { get; }
+        public string Tags { get; }
         [JsonPropertyName("custom")]
         public JsonElement Custom { get; }
 
         [JsonConstructor]
-        public CrewItem(uint? id, DateTime? created, DateTime? modified, string? creator, string? displayName,
-                        string? updateHash, string? folder, string? street, string? housenumber, string? city,
-                        string? postal_code, string? addressline2, string? state, string? country, string? birthdate,
-                        string? passport_Number, string? emergency_Contact, string? remark, string? driving_License,
-                        int contract, string? bank, string? contract_Date, string? company_Name, string? vAT_Code,
-                        string? cOC_Code, string? firstname, string? middle_name, string? lastname, string? email,
-                        string? phone, bool active, string? avatar, string? vT_Fullname, string? function, string? tags,
+        public CrewItem(uint id, DateTime created, DateTime modified, string creator, string displayName,
+                        string updateHash, string folder, string street, string housenumber, string city,
+                        string postal_code, string addressline2, string state, string country, string birthdate,
+                        string passport_Number, string emergency_Contact, string remark, string driving_License,
+                        int contract, string bank, string contract_Date, string company_Name, string vAT_Code,
+                        string cOC_Code, string firstname, string middle_name, string lastname, string email,
+                        string phone, bool active, string avatar, string vT_Fullname, string function, string tags,
                         JsonElement custom) : base(id, created, modified, creator, displayName, updateHash)
         {
             Folder = folder;

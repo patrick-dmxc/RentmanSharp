@@ -3,7 +3,7 @@
     public class Rate : AbstractEntity
     {
         [JsonPropertyName("name")]
-        public string? Name { get; }
+        public string Name { get; }
         [JsonPropertyName("archived")]
         public bool Archived { get; }
         [JsonPropertyName("type")]
@@ -12,8 +12,8 @@
         public ERateSubType Subtype { get; }
 
         [JsonConstructor]
-        public Rate(uint? id, DateTime? created, DateTime? modified, string? creator, string? displayName,
-                    string? updateHash, string? name, bool archived, ERateType type, ERateSubType subtype) 
+        public Rate(uint id, DateTime created, DateTime modified, string creator, string displayName,
+                    string updateHash, string name, bool archived, ERateType type, ERateSubType subtype) 
                     : base(id, created, modified, creator, displayName, updateHash)
         {
             Name = name;

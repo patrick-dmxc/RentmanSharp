@@ -3,42 +3,42 @@
     public class SerialNumber : AbstractEntity
     {
         [JsonPropertyName("equipment")]
-        public string? Equipment { get; }
+        public string Equipment { get; }
         [JsonPropertyName("serial")]
-        public string? Serial { get; }
+        public string Serial { get; }
         [JsonPropertyName("purchasedate")]
-        public DateTime? PurchaseDate { get; }
+        public DateTime PurchaseDate { get; }
         [JsonPropertyName("depreciation_monthly")]
-        public double? Depreciation_Monthly { get; }
+        public double Depreciation_Monthly { get; }
         [JsonPropertyName("book_value")]
-        public double? Book_Value { get; }
+        public double Book_Value { get; }
         [JsonPropertyName("purchase_costs")]
-        public double? Purchase_Costs { get; }
+        public double Purchase_Costs { get; }
         [JsonPropertyName("active")]
-        public bool? Active { get; }
+        public bool Active { get; }
         [JsonPropertyName("remark")]
-        public string? Remark { get; }
+        public string Remark { get; }
         [JsonPropertyName("ref")]
-        public string? Ref { get; }
+        public string Ref { get; }
         [JsonPropertyName("asset_location")]
-        public string? Asset_Location { get; }
+        public string Asset_Location { get; }
         [JsonPropertyName("current_book_value")]
-        public double? Current_Book_Value { get; }
+        public double Current_Book_Value { get; }
         [JsonPropertyName("next_inspection")]
-        public DateTime? Next_Inspection { get; }
+        public DateTime Next_Inspection { get; }
         [JsonPropertyName("qrcodes")]
-        public string? QRCodes { get; }
+        public string QRCodes { get; }
         [JsonPropertyName("tags")]
-        public string? Tags { get; }
+        public string Tags { get; }
         [JsonPropertyName("custom")]
         public JsonElement Custom { get; }
 
         [JsonConstructor]
         public SerialNumber(
-            uint? id, DateTime? created, DateTime? modified, string? creator, string? displayName, string? updateHash,
-            string? equipment, string? serial, DateTime? purchaseDate, double? depreciation_Monthly, double? book_Value,
-            double? purchase_Costs, bool? active, string? remark, string? @ref, string? asset_Location,
-            double? current_Book_Value, DateTime? next_Inspection, string? qRCodes, string? tags, JsonElement custom)
+            uint id, DateTime created, DateTime modified, string creator, string displayName, string updateHash,
+            string equipment, string serial, DateTime purchaseDate, double depreciation_Monthly, double book_Value,
+            double purchase_Costs, bool active, string remark, string @ref, string asset_Location,
+            double current_Book_Value, DateTime next_Inspection, string qRCodes, string tags, JsonElement custom)
             : base(id, created, modified, creator, displayName, updateHash)
         {
             Equipment = equipment;

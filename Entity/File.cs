@@ -3,9 +3,9 @@
     public class File : AbstractEntity
     {
         [JsonPropertyName("readable_name")]
-        public string? Readable_Name { get; }
+        public string Readable_Name { get; }
         [JsonPropertyName("expiration")]
-        public string? Expiration { get; }
+        public string Expiration { get; }
         [JsonPropertyName("size")]
         public int Size { get; }
         [JsonPropertyName("image")]
@@ -13,9 +13,9 @@
         [JsonPropertyName("item")]
         public int Item { get; }
         [JsonPropertyName("itemtype")]
-        public string? ItemType { get; }
+        public string ItemType { get; }
         [JsonPropertyName("description")]
-        public string? Description { get; }
+        public string Description { get; }
         [JsonPropertyName("in_documents")]
         public bool In_Documents { get; }
         [JsonPropertyName("in_webshop")]
@@ -25,28 +25,28 @@
         [JsonPropertyName("public")]
         public bool Public { get; }
         [JsonPropertyName("type")]
-        public string? Type { get; }
+        public string Type { get; }
         [JsonPropertyName("preview_of")]
-        public string? Preview_of { get; }
+        public string Preview_of { get; }
         [JsonPropertyName("previewstatus")]
-        public EFilePreviewStatus? PreviewStatus { get; }
+        public EFilePreviewStatus PreviewStatus { get; }
         [JsonPropertyName("file_item")]
         public int File_Item { get; }
         [JsonPropertyName("file_itemtype")]
-        public string? File_ItemType { get; }
+        public string File_ItemType { get; }
         [JsonPropertyName("path")]
-        public string? Path { get; }
+        public string Path { get; }
         [JsonPropertyName("url")]
-        public string? URL { get; }
+        public string URL { get; }
         [JsonPropertyName("proxy_url")]
-        public string? Proxy_URL { get; }
+        public string Proxy_URL { get; }
 
         [JsonConstructor]
-        public File(uint? id, DateTime? created, DateTime? modified, string? creator, string? displayName,
-                    string? updateHash, string? readable_Name, string? expiration, int size, bool image, int item,
-                    string? itemType, string? description, bool in_Documents, bool in_Webshop, bool classified,
-                    bool @public, string? type, string? preview_of, EFilePreviewStatus? previewStatus, int file_Item,
-                    string? file_ItemType, string? path, string? uRL, string? proxy_URL) : base(id, created, modified, creator, displayName, updateHash)
+        public File(uint id, DateTime created, DateTime modified, string creator, string displayName,
+                    string updateHash, string readable_Name, string expiration, int size, bool image, int item,
+                    string itemType, string description, bool in_Documents, bool in_Webshop, bool classified,
+                    bool @public, string type, string preview_of, EFilePreviewStatus previewStatus, int file_Item,
+                    string file_ItemType, string path, string uRL, string proxy_URL) : base(id, created, modified, creator, displayName, updateHash)
         {
             Readable_Name = readable_Name;
             Expiration = expiration;

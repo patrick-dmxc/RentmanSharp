@@ -3,17 +3,17 @@
     public class ProjectEquipmentItem : AbstractEntity
     {
         [JsonPropertyName("equipment")]
-        public string? Equipment { get; }
+        public string Equipment { get; }
         [JsonPropertyName("parent")]
-        public string? Parent { get; }
+        public string Parent { get; }
         [JsonPropertyName("ledger")]
-        public string? Ledger { get; }
+        public string Ledger { get; }
         [JsonPropertyName("quantity")]
         public int Quantity { get; }
         [JsonPropertyName("quantity_total")]
         public int Quantity_Total { get; }
         [JsonPropertyName("equipment_group")]
-        public string? Equipment_Group { get; }
+        public string Equipment_Group { get; }
         [JsonPropertyName("discount")]
         public double Discount { get; }
         [JsonPropertyName("is_option")]
@@ -25,17 +25,17 @@
         [JsonPropertyName("unit_price")]
         public double Unit_Price { get; }
         [JsonPropertyName("name")]
-        public string? Name { get; }
+        public string Name { get; }
         [JsonPropertyName("external_remark")]
-        public string? External_Remark { get; }
+        public string External_Remark { get; }
         [JsonPropertyName("internal_remark")]
-        public string? Internal_Remark { get; }
+        public string Internal_Remark { get; }
         [JsonPropertyName("delay_notified")]
         public bool Delay_Notified { get; }
         [JsonPropertyName("planperiod_start")]
-        public DateTime? Planperiod_Start { get; }
+        public DateTime Planperiod_Start { get; }
         [JsonPropertyName("planperiod_end")]
-        public DateTime? Planperiod_End { get; }
+        public DateTime Planperiod_End { get; }
         [JsonPropertyName("has_missings")]
         public bool Has_Missings { get; }
         [JsonPropertyName("warehouse_reservations")]
@@ -43,18 +43,18 @@
         [JsonPropertyName("subrent_reservations")]
         public int Subrent_Reservations { get; }
         [JsonPropertyName("serial_number_ids")]
-        public string? Serial_Number_IDs { get; }
+        public string Serial_Number_IDs { get; }
         [JsonPropertyName("custom")]
         public JsonElement Custom { get; }
 
         [JsonConstructor]
-        public ProjectEquipmentItem(uint? id, DateTime? created, DateTime? modified, string? creator,
-                                    string? displayName, string? updateHash, string? equipment, string? parent,
-                                    string? ledger, int quantity, int quantity_Total, string? equipment_Group,
+        public ProjectEquipmentItem(uint id, DateTime created, DateTime modified, string creator,
+                                    string displayName, string updateHash, string equipment, string parent,
+                                    string ledger, int quantity, int quantity_Total, string equipment_Group,
                                     double discount, bool is_Option, double factor, int order, double unit_Price,
-                                    string? name, string? external_Remark, string? internal_Remark, bool delay_Notified,
-                                    DateTime? planperiod_Start, DateTime? planperiod_End, bool has_Missings,
-                                    int warehouse_Reservations, int subrent_Reservations, string? serial_Number_IDs,
+                                    string name, string external_Remark, string internal_Remark, bool delay_Notified,
+                                    DateTime planperiod_Start, DateTime planperiod_End, bool has_Missings,
+                                    int warehouse_Reservations, int subrent_Reservations, string serial_Number_IDs,
                                     JsonElement custom) : base(id, created, modified, creator, displayName, updateHash)
         {
             Equipment = equipment;

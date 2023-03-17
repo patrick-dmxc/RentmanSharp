@@ -2,8 +2,8 @@
 //{
 //    public class CustomField : AbstractEntity
 //    {
-//        public string? Type { get; set; }
-//        public string? Name { get; set; }
+//        public string Type { get; set; }
+//        public string Name { get; set; }
 
 //        public override string ToString()
 //        {

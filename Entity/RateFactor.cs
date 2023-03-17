@@ -3,9 +3,9 @@
     public class RateFactor : AbstractEntity
     {
         [JsonPropertyName("rate_id")]
-        public string? Rate_ID { get; }
+        public string Rate_ID { get; }
         [JsonPropertyName("name")]
-        public string? Name { get; }
+        public string Name { get; }
         [JsonPropertyName("from")]
         public double From { get; }
         [JsonPropertyName("to")]
@@ -16,8 +16,8 @@
         public double @Fixed { get; }
 
         [JsonConstructor]
-        public RateFactor(uint? id, DateTime? created, DateTime? modified, string? creator, string? displayName,
-                          string? updateHash, string? rate_ID, string? name, double from, double to, double variable,
+        public RateFactor(uint id, DateTime created, DateTime modified, string creator, string displayName,
+                          string updateHash, string rate_ID, string name, double from, double to, double variable,
                           double @fixed) : base(id, created, modified, creator, displayName, updateHash)
         {
             Rate_ID = rate_ID;

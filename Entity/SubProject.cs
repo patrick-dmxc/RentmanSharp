@@ -3,19 +3,19 @@
     public class SubProject : AbstractEntity
     {
         [JsonPropertyName("project")]
-        public string? Project { get; }
+        public string Project { get; }
         [JsonPropertyName("order")]
-        public int? Order { get; }
+        public int Order { get; }
         [JsonPropertyName("name")]
-        public string? Name { get; }
+        public string Name { get; }
         [JsonPropertyName("status")]
-        public string? Status { get; }
+        public string Status { get; }
         [JsonPropertyName("is_template")]
         public bool Is_Template { get; }
         [JsonPropertyName("location")]
-        public string? Location { get; }
+        public string Location { get; }
         [JsonPropertyName("loc_contact")]
-        public string? Loc_Contact { get; }
+        public string Loc_Contact { get; }
         [JsonPropertyName("insurance_rate")]
         public double Insurance_Rate { get; }
         [JsonPropertyName("discount_rental")]
@@ -41,17 +41,17 @@
         [JsonPropertyName("in_financial")]
         public bool In_Financial { get; }
         [JsonPropertyName("asset_location_from")]
-        public string? Asset_Location_From { get; }
+        public string Asset_Location_From { get; }
         [JsonPropertyName("already_invoiced")]
         public double Already_Invoiced { get; }
         [JsonPropertyName("usageperiod_start")]
-        public DateTime? Usageperiod_Start { get; }
+        public DateTime Usageperiod_Start { get; }
         [JsonPropertyName("usageperiod_end")]
-        public DateTime? Usageperiod_End { get; }
+        public DateTime Usageperiod_End { get; }
         [JsonPropertyName("planperiod_start")]
-        public DateTime? Planperiod_Start { get; }
+        public DateTime Planperiod_Start { get; }
         [JsonPropertyName("planperiod_end")]
-        public DateTime? Planperiod_End { get; }
+        public DateTime Planperiod_End { get; }
         [JsonPropertyName("volume")]
         public double Volume { get; }
         [JsonPropertyName("weight")]
@@ -63,23 +63,23 @@
         [JsonPropertyName("purchasecosts")]
         public double PurchaseCosts { get; }
         [JsonPropertyName("equipment_period_from")]
-        public DateTime? Equipment_Period_From { get; }
+        public DateTime Equipment_Period_From { get; }
         [JsonPropertyName("equipment_period_to")]
-        public DateTime? Equipment_Period_To { get; }
+        public DateTime Equipment_Period_To { get; }
         [JsonPropertyName("custom")]
         public JsonElement Custom { get; }
 
         [JsonConstructor]
         public SubProject(
-            uint? id, DateTime? created, DateTime? modified, string? creator, string? displayName, string? updateHash,
-            string? project, int? order, string? name, string? status, bool is_Template, string? location,
-            string? loc_Contact, double insurance_Rate, double discount_Rental, double discount_Sale,
+            uint id, DateTime created, DateTime modified, string creator, string displayName, string updateHash,
+            string project, int order, string name, string status, bool is_Template, string location,
+            string loc_Contact, double insurance_Rate, double discount_Rental, double discount_Sale,
             double discount_Crew, double discount_Transport, double discount_Additional_Costs,
             double discount_Subproject, bool discount_Fixed, double discount_Fixed_Amount, bool fixed_Price,
-            bool in_Planning, bool in_Financial, string? asset_Location_From, double already_Invoiced,
-            DateTime? usageperiod_Start, DateTime? usageperiod_End, DateTime? planperiod_Start, DateTime? planperiod_End,
+            bool in_Planning, bool in_Financial, string asset_Location_From, double already_Invoiced,
+            DateTime usageperiod_Start, DateTime usageperiod_End, DateTime planperiod_Start, DateTime planperiod_End,
             double volume, double weight, double power, double current, double purchaseCosts,
-            DateTime? equipment_Period_From, DateTime? equipment_Period_To, JsonElement custom) : base(id,
+            DateTime equipment_Period_From, DateTime equipment_Period_To, JsonElement custom) : base(id,
             created, modified, creator, displayName, updateHash)
         {
             Project = project;

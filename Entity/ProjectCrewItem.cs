@@ -3,25 +3,25 @@
     public class ProjectCrewItem : AbstractEntity
     {
         [JsonPropertyName("cost_rate")]
-        public string? Cost_Rate { get; }
+        public string Cost_Rate { get; }
         [JsonPropertyName("function")]
-        public string? Function { get; }
+        public string Function { get; }
         [JsonPropertyName("crewmember")]
-        public string? CrewMember { get; }
+        public string CrewMember { get; }
         [JsonPropertyName("visible")]
         public bool Visible { get; }
         [JsonPropertyName("planperiod_start")]
-        public DateTime? Planperiod_Start { get; }
+        public DateTime Planperiod_Start { get; }
         [JsonPropertyName("planperiod_end")]
-        public DateTime? Planperiod_End { get; }
+        public DateTime Planperiod_End { get; }
         [JsonPropertyName("transport")]
-        public string? Transport { get; }
+        public string Transport { get; }
         [JsonPropertyName("remark")]
-        public string? Remark { get; }
+        public string Remark { get; }
         [JsonPropertyName("remark_planner")]
-        public string? Remark_Planner { get; }
+        public string Remark_Planner { get; }
         [JsonPropertyName("invoice_reference")]
-        public string? Invoice_Reference { get; }
+        public string Invoice_Reference { get; }
         [JsonPropertyName("project_leader")]
         public bool Project_Leader { get; }
         [JsonPropertyName("is_visible_on_dashboard")]
@@ -38,10 +38,10 @@
         public JsonElement Custom { get; }
 
         [JsonConstructor]
-        public ProjectCrewItem(uint? id, DateTime? created, DateTime? modified, string? creator, string? displayName,
-                               string? updateHash, string? cost_Rate, string? function, string? crewMember, bool visible,
-                               DateTime? planperiod_Start, DateTime? planperiod_End, string? transport, string? remark,
-                               string? remark_Planner, string? invoice_Reference, bool project_Leader,
+        public ProjectCrewItem(uint id, DateTime created, DateTime modified, string creator, string displayName,
+                               string updateHash, string cost_Rate, string function, string crewMember, bool visible,
+                               DateTime planperiod_Start, DateTime planperiod_End, string transport, string remark,
+                               string remark_Planner, string invoice_Reference, bool project_Leader,
                                bool is_Visible_On_Dashboard, double costs, double cost_Actual, int hours_Registered,
                                int hours_Planned, JsonElement custom) : base(id, created, modified, creator, displayName, updateHash)
         {

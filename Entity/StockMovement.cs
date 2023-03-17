@@ -3,27 +3,27 @@
     public class StockMovement : AbstractEntity
     {
         [JsonPropertyName("amount")]
-        public int? Amount { get; }
+        public int Amount { get; }
         [JsonPropertyName("equipment")]
-        public string? Equipment { get; }
+        public string Equipment { get; }
         [JsonPropertyName("projectequipment")]
-        public string? ProjectEquipment { get; }
+        public string ProjectEquipment { get; }
         [JsonPropertyName("description")]
-        public string? Description { get; }
+        public string Description { get; }
         [JsonPropertyName("details")]
-        public string? Details { get; }
+        public string Details { get; }
         [JsonPropertyName("date")]
-        public DateTime? Date { get; }
+        public DateTime Date { get; }
         [JsonPropertyName("stock_location")]
-        public string? Stock_Location { get; }
+        public string Stock_Location { get; }
         [JsonPropertyName("type")]
         public EStockMovementType Type { get; }
 
         [JsonConstructor]
         public StockMovement(
-            uint? id, DateTime? created, DateTime? modified, string? creator, string? displayName, string? updateHash,
-            int? amount, string? equipment, string? projectEquipment, string? description, string? details,
-            DateTime? date, string? stock_Location, EStockMovementType type) : base(id, created, modified, creator, displayName, updateHash)
+            uint id, DateTime created, DateTime modified, string creator, string displayName, string updateHash,
+            int amount, string equipment, string projectEquipment, string description, string details,
+            DateTime date, string stock_Location, EStockMovementType type) : base(id, created, modified, creator, displayName, updateHash)
         {
             Amount = amount;
             Equipment = equipment;
