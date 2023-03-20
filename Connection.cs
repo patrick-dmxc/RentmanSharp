@@ -11,14 +11,13 @@ namespace RentmanSharp
         {
             get
             {
-                if (instance == null)
-                    instance = new Connection();
+                instance ??= new Connection();
                 return instance;
             }
         }
         public bool IsInitialized { get; private set; } = false;
 
-        private List<IEndpoint> endpoints = new List<IEndpoint>();
+        private List<IEndpoint> endpoints { get; } = new();
         public IReadOnlyList<IEndpoint> Endpoints { get => endpoints.AsReadOnly(); }
 
         private Connection()
@@ -60,7 +59,7 @@ namespace RentmanSharp
 
             _logger?.Log(LogLevel.Information, "Search Endpoints");
             foreach (var t in types)
-                if (t.GetConstructors().Any(c => c.GetParameters().Count() == 0))
+                if (t.GetConstructors().Any(c => c.GetParameters().Length == 0))
                 {
                     IEndpoint? instance = (IEndpoint?)Activator.CreateInstance(t);
                     if (instance != null)

@@ -13,21 +13,23 @@
         [JsonPropertyName("number")]
         public int Number { get; }
         [JsonPropertyName("location")]
-        public string Location { get; }
+        public string? Location { get; }
+        [JsonPropertyName("location_contact")]
+        public string? LocationContact { get; }
         [JsonPropertyName("contactperson")]
-        public string ContactPerson { get; }
+        public string? ContactPerson { get; }
         [JsonPropertyName("usageperiod_start")]
-        public DateTime Usageperiod_Start { get; }
+        public DateTime? Usageperiod_Start { get; }
         [JsonPropertyName("usageperiod_end")]
-        public DateTime Usageperiod_End { get; }
+        public DateTime? Usageperiod_End { get; }
         [JsonPropertyName("planperiod_start")]
-        public DateTime Planperiod_Start { get; }
+        public DateTime? Planperiod_Start { get; }
         [JsonPropertyName("planperiod_end")]
-        public DateTime Planperiod_End { get; }
+        public DateTime? Planperiod_End { get; }
         [JsonPropertyName("delivery_in")]
-        public DateTime Delivery_In { get; }
+        public DateTime? Delivery_In { get; }
         [JsonPropertyName("delivery_out")]
-        public DateTime Delivery_Out { get; }
+        public DateTime? Delivery_Out { get; }
         [JsonPropertyName("equipment_cost")]
         public double Equipment_Cost { get; }
         [JsonPropertyName("price")]
@@ -43,15 +45,15 @@
         [JsonPropertyName("status")]
         public string Status { get; }
         [JsonPropertyName("sent")]
-        public string Sent { get; }
+        public string? Sent { get; }
         [JsonPropertyName("asset_location_to")]
         public string Asset_Location_To { get; }
         [JsonPropertyName("asset_location_from")]
-        public string Asset_Location_From { get; }
+        public string? Asset_Location_From { get; }
         [JsonPropertyName("is_internal")]
         public bool Is_Internal { get; }
         [JsonPropertyName("supplier_project")]
-        public string Supplier_Project { get; }
+        public string? Supplier_Project { get; }
         [JsonPropertyName("tags")]
         public string Tags { get; }
         [JsonPropertyName("custom")]
@@ -60,11 +62,11 @@
         [JsonConstructor]
         public Subrental(
             uint id, DateTime created, DateTime modified, string creator, string displayName, string updateHash,
-            string name, string account_Manager, string reference, string supplier, int number, string location,
-            string contactPerson, DateTime usageperiod_Start, DateTime usageperiod_End, DateTime planperiod_Start,
-            DateTime planperiod_End, DateTime delivery_In, DateTime delivery_Out, double equipment_Cost, double price,
-            double extra_Cost, bool auto_Update_Costs, string remark, ESubrentalType type, string status, string sent,
-            string asset_Location_To, string asset_Location_From, bool is_Internal, string supplier_Project,
+            string name, string account_Manager, string reference, string supplier, int number, string? location, string? locationContact,
+            string? contactPerson, DateTime? usageperiod_Start, DateTime? usageperiod_End, DateTime? planperiod_Start,
+            DateTime? planperiod_End, DateTime? delivery_In, DateTime? delivery_Out, double equipment_Cost, double price,
+            double extra_Cost, bool auto_Update_Costs, string remark, ESubrentalType type, string status, string? sent,
+            string asset_Location_To, string? asset_Location_From, bool is_Internal, string? supplier_Project,
             string tags, JsonElement custom) : base(id, created, modified, creator, displayName, updateHash)
         {
             Name = name;
@@ -73,6 +75,7 @@
             Supplier = supplier;
             Number = number;
             Location = location;
+            LocationContact = locationContact;
             ContactPerson = contactPerson;
             Usageperiod_Start = usageperiod_Start;
             Usageperiod_End = usageperiod_End;

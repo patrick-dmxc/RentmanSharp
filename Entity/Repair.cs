@@ -9,15 +9,15 @@
         [JsonPropertyName("reporter")]
         public string Reporter { get; }
         [JsonPropertyName("assignee")]
-        public string Assignee { get; }
+        public string? Assignee { get; }
         [JsonPropertyName("external_repairer")]
-        public string External_Repairer { get; }
+        public string? External_Repairer { get; }
         [JsonPropertyName("number")]
         public int Number { get; }
         [JsonPropertyName("repairperiod_start")]
         public DateTime RepairPeriod_Start { get; }
         [JsonPropertyName("repairperiod_end")]
-        public DateTime RepairPeriod_End { get; }
+        public DateTime? RepairPeriod_End { get; }
         [JsonPropertyName("amount")]
         public int Amount { get; }
         [JsonPropertyName("remark")]
@@ -27,9 +27,9 @@
         [JsonPropertyName("is_usable")]
         public byte Is_Usable { get; }
         [JsonPropertyName("costs_charged_to_customer")]
-        public string Costs_Charged_To_Customer { get; }
+        public string? Costs_Charged_To_Customer { get; }
         [JsonPropertyName("subproject")]
-        public string SubProject { get; }
+        public string? SubProject { get; }
         [JsonPropertyName("stock_location")]
         public string Stock_Location { get; }
         [JsonPropertyName("tags")]
@@ -39,10 +39,10 @@
 
         [JsonConstructor]
         public Repair(uint id, DateTime created, DateTime modified, string creator, string displayName,
-                      string updateHash, string equipment, string serialNumber, string reporter, string assignee,
-                      string external_Repairer, int number, DateTime repairPeriod_Start, DateTime repairPeriod_End,
+                      string updateHash, string equipment, string serialNumber, string reporter, string? assignee,
+                      string external_Repairer, int number, DateTime repairPeriod_Start, DateTime? repairPeriod_End,
                       int amount, string remark, double repair_Costs, byte is_Usable,
-                      string costs_Charged_To_Customer, string subProject, string stock_Location, string tags,
+                      string? costs_Charged_To_Customer, string? subProject, string stock_Location, string tags,
                       JsonElement custom) : base(id, created, modified, creator, displayName, updateHash)
         {
             Equipment = equipment;

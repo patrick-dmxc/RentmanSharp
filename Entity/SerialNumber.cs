@@ -7,7 +7,7 @@
         [JsonPropertyName("serial")]
         public string Serial { get; }
         [JsonPropertyName("purchasedate")]
-        public DateTime PurchaseDate { get; }
+        public DateTime? PurchaseDate { get; }
         [JsonPropertyName("depreciation_monthly")]
         public double Depreciation_Monthly { get; }
         [JsonPropertyName("book_value")]
@@ -35,8 +35,8 @@
 
         [JsonConstructor]
         public SerialNumber(
-            uint id, DateTime created, DateTime modified, string creator, string displayName, string updateHash,
-            string equipment, string serial, DateTime purchaseDate, double depreciation_Monthly, double book_Value,
+            uint id, DateTime created, DateTime modified, string creator, string displayName, string? updateHash,
+            string equipment, string serial, DateTime? purchaseDate, double depreciation_Monthly, double book_Value,
             double purchase_Costs, bool active, string remark, string @ref, string asset_Location,
             double current_Book_Value, DateTime next_Inspection, string qRCodes, string tags, JsonElement custom)
             : base(id, created, modified, creator, displayName, updateHash)

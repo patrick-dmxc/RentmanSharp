@@ -5,34 +5,36 @@ using System.Net.Http.Headers;
 
 namespace RentmanSharp.Endpoint
 {
-    public abstract class AbstractEndpoint<T>: IEndpoint
+    public abstract class AbstractEndpoint<T>: IEndpoint where T : IEntity
     {
         private readonly ILogger<AbstractEndpoint<T>> _logger;
         public abstract string Path { get; }
-        private static string? token { get => Connection.Instance.Token; }
-        protected string? BaseUrl { get => $"{Constants.API_URL}"; }
+        public static string? Token { get => Connection.Instance.Token; }
+        protected string BaseUrl { get => $"{Constants.API_URL}"; }
         private static string? version { get => Constants.VERSION; }
-        private static JsonSerializerOptions serializeOptions = new JsonSerializerOptions() { DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull };
-        private static JsonSerializerOptions deserializeOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
+        private static readonly JsonSerializerOptions serializeOptions = new() { DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull };
+        private static readonly JsonSerializerOptions deserializeOptions = new() { PropertyNameCaseInsensitive = true };
 
-        public event EventHandler<DictionaryChangedEventArgs<uint, T>> EntitiesChanged;
+        public event EventHandler<DictionaryChangedEventArgs<uint, T>>? EntitiesChanged;
 
         private HttpClient? httpClient = null;
 
-        private ConcurrentObservableDictionary<uint,T> entities = new ConcurrentObservableDictionary<uint, T>();
+        private ConcurrentObservableDictionary<uint, T> entities { get; } = new();
 
         public ReadOnlyCollection<T> Entities
         {
             get
             {
-                return this.entities.Select(d=>d.Value).ToList().AsReadOnly();
+                return this.entities.Select(d=>d.Value).OfType<T>().ToList().AsReadOnly();
             }
         }
 
         public AbstractEndpoint()
         {
             _logger = ApplicationLogging.CreateLogger<AbstractEndpoint<T>>();
+#pragma warning disable CA2254
             _logger.Log(LogLevel.Debug, $"Initialize {this.GetType().Name}-Endpoint");
+#pragma warning restore CA2254
             this.entities.CollectionChanged += Entities_CollectionChanged1;
         }
 
@@ -41,23 +43,22 @@ namespace RentmanSharp.Endpoint
             this.EntitiesChanged?.Invoke(this, e);
         }
 
-        protected virtual Filter? DefaultFilter { get => new Filter(); }
+        protected virtual Filter? DefaultFilter { get => new(); }
 
         public async Task<IEntity[]> GetCollectionEntity(Filter? filter = null)
         {
-            return (await this.GetCollection(BaseUrl, filter)).Cast<IEntity>().ToArray();
+            return (await this.GetCollection(BaseUrl, filter)).OfType<IEntity>().ToArray();
         }
         internal async Task<T[]> GetCollection(string baseUrl, Filter? filter = null)
         {
             baseUrl+=$"/{Path}";
             
 
-            if (httpClient == null)
-                httpClient = HttpClientTools.CreateHttpCLient();
+            httpClient ??= HttpClientTools.CreateHttpCLient();
 
 
-            List<T> res= new List<T>();
-            JsonSerializerOptions options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
+            List<IEntity> res= new();
+            JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
             Response? resp = null;
             string? url = null;
             bool firstRun = true;
@@ -77,25 +78,20 @@ namespace RentmanSharp.Endpoint
 
                 resp = await this.PerformGetRequest(url);
 
-#pragma warning disable CS8604
-                filter = new Filter(resp, filter.FilterProperties);
-#pragma warning restore CS8604
+                if (filter != null)
+                    filter = new Filter(resp, filter.FilterProperties);
 
                 try
                 {
-#pragma warning disable CS8604
-                    var list = await resp.Data.Deserialize<IAsyncEnumerable<T>>(options).ToArrayAsync();
-#pragma warning restore CS8604
-
+                    IEntity[]? list = resp.Data.Deserialize<IEnumerable<T>>(options)?.OfType<IEntity>().ToArray();
                     if (list != null)
                     {
                         res.AddRange(list);
-                        foreach (IEntity? l in list)
+                        foreach (T l in list)
                         {
-                            if (l == null)
-                                continue;
-                            if (!entities.OfType<IEntity>().Any(e => e.ID == l.ID))
-                                entities.AddOrUpdate(l.ID, (T)l);
+                            var id = ((IEntity)l).ID;
+                            if (!entities.OfType<IEntity>().Any(e => e.ID == id))
+                                entities.AddOrUpdate(id, l);
                         }
                         
                     }
@@ -116,7 +112,7 @@ namespace RentmanSharp.Endpoint
             }
             while (thereIsMore(resp));
 
-            bool thereIsMore(Response? resp)
+            static bool thereIsMore(Response? resp)
             {
                 if (resp == null)
                     return false;
@@ -124,7 +120,7 @@ namespace RentmanSharp.Endpoint
                 return resp.ItemCount == resp.Limit;
             }
 
-            return res.ToArray();
+            return res.OfType<T>().ToArray();
         }
 
 #pragma warning disable CS8613
@@ -137,7 +133,10 @@ namespace RentmanSharp.Endpoint
         {            
             string url = $"{Constants.API_URL}/{Path}/{id}";
             Response resp = await this.PerformGetRequest(url);
-            T entity = resp.Data.Deserialize<T>(deserializeOptions);
+            T? entity = resp.Data.Deserialize<T>(deserializeOptions);
+            if (entity == null)
+                return default;
+
             if (!entities.OfType<IEntity>().Any(e => e.ID == ((IEntity)entity).ID))
                 entities.AddOrUpdate(((IEntity)entity).ID, entity);
 
@@ -164,91 +163,73 @@ namespace RentmanSharp.Endpoint
 
         private async Task<Response> PerformGetRequest(string url)
         {
-            using (var requestMessage = new HttpRequestMessage(HttpMethod.Get, url))
-            {
-                if (httpClient == null)
-                    httpClient = HttpClientTools.CreateHttpCLient();
-                fillHeader(requestMessage);
-                var response = await httpClient.SendAsyncLimited(requestMessage);
+            using var requestMessage = new HttpRequestMessage(HttpMethod.Get, url);
+            httpClient ??= HttpClientTools.CreateHttpCLient();
+            fillHeader(requestMessage);
+            var response = await httpClient.SendAsyncLimited(requestMessage);
 
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    string contentData = await response.Content.ReadAsStringAsync();
-                    var res = JsonSerializer.Deserialize<Response>(contentData, deserializeOptions);
-                    if (res == null)
-                        throw new Exception("Can't deserialize Data");
-                    return res;
-                }
-                else
-                    throw new Exception(response.ToString());
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                string contentData = await response.Content.ReadAsStringAsync();
+                var res = JsonSerializer.Deserialize<Response>(contentData, deserializeOptions);
+                return res ?? throw new Exception("Can't deserialize Data");
             }
+            else
+                throw new Exception(response.ToString());
         }
         private async Task<Response> PerformPostRequest(string url, T item)
         {
-            using (var requestMessage = new HttpRequestMessage(HttpMethod.Post, url))
-            {
-                if (httpClient == null)
-                    httpClient = HttpClientTools.CreateHttpCLient();
-                fillHeader(requestMessage);
-                requestMessage.Content = new StringContent(JsonSerializer.Serialize(item, serializeOptions));
-                var response = await httpClient.SendAsyncLimited(requestMessage);
+            using var requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
+            httpClient ??= HttpClientTools.CreateHttpCLient();
+            fillHeader(requestMessage);
+            requestMessage.Content = new StringContent(JsonSerializer.Serialize(item, serializeOptions));
+            var response = await httpClient.SendAsyncLimited(requestMessage);
 
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    string contentData = await response.Content.ReadAsStringAsync();
-                    var res = JsonSerializer.Deserialize<Response>(contentData, deserializeOptions);
-                    if (res == null)
-                        throw new Exception("Can't deserialize Data");
-                    return res;
-                }
-                else
-                    throw new Exception(response.ToString());
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                string contentData = await response.Content.ReadAsStringAsync();
+                var res = JsonSerializer.Deserialize<Response>(contentData, deserializeOptions);
+                return res ?? throw new Exception("Can't deserialize Data");
             }
+            else
+                throw new Exception(response.ToString());
         }
         private async Task<Response> PerformPutRequest(string url, T item)
         {
-            using (var requestMessage = new HttpRequestMessage(HttpMethod.Put, url))
-            {
-                if (httpClient == null)
-                    httpClient = HttpClientTools.CreateHttpCLient();
-                fillHeader(requestMessage);
-                requestMessage.Content = new StringContent(JsonSerializer.Serialize(item, serializeOptions));
-                var response = await httpClient.SendAsyncLimited(requestMessage);
+            using var requestMessage = new HttpRequestMessage(HttpMethod.Put, url);
+            httpClient ??= HttpClientTools.CreateHttpCLient();
+            fillHeader(requestMessage);
+            requestMessage.Content = new StringContent(JsonSerializer.Serialize(item, serializeOptions));
+            var response = await httpClient.SendAsyncLimited(requestMessage);
 
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    string contentData = await response.Content.ReadAsStringAsync();
-                    var res = JsonSerializer.Deserialize<Response>(contentData, deserializeOptions);
-                    if (res == null)
-                        throw new Exception("Can't deserialize Data");
-                    return res;
-                }
-                else
-                    throw new Exception(response.ToString());
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                string contentData = await response.Content.ReadAsStringAsync();
+                var res = JsonSerializer.Deserialize<Response>(contentData, deserializeOptions);
+                return res ?? throw new Exception("Can't deserialize Data");
             }
+            else
+                throw new Exception(response.ToString());
         }
         private async Task PerformDeleteRequest(string url)
         {
-            using (var requestMessage = new HttpRequestMessage(HttpMethod.Delete, url))
-            {
-                if (httpClient == null)
-                    httpClient = HttpClientTools.CreateHttpCLient();
-                fillHeader(requestMessage);
-                var response = await httpClient.SendAsyncLimited(requestMessage);
+            using var requestMessage = new HttpRequestMessage(HttpMethod.Delete, url);
+            httpClient ??= HttpClientTools.CreateHttpCLient();
+            fillHeader(requestMessage);
+            var response = await httpClient.SendAsyncLimited(requestMessage);
 
-                if (response.StatusCode == HttpStatusCode.OK)
-                    return;
-                else
-                    throw new Exception(response.ToString());
-            }
+            if (response.StatusCode == HttpStatusCode.OK)
+                return;
+            else
+                throw new Exception(response.ToString());
         }
         private static void fillHeader(HttpRequestMessage requestMessage)
         {
-            if (string.IsNullOrWhiteSpace(token))
+            if (string.IsNullOrWhiteSpace(Token))
                 throw new Exception("Token not set");
 
             requestMessage.Headers.Add("ContentType", "application/json");
-            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Token);
             requestMessage.Headers.UserAgent.Add(new ProductInfoHeaderValue("RentmanSharp", version));
         }
     }

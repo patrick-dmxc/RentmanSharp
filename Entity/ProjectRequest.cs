@@ -27,17 +27,17 @@
         [JsonPropertyName("contact_person_first_name")]
         public string Contact_Person_First_name { get; }
         [JsonPropertyName("usageperiod_start")]
-        public DateTime Usageperiod_Start { get; }
+        public DateTime? Usageperiod_Start { get; }
         [JsonPropertyName("usageperiod_end")]
-        public DateTime Usageperiod_End { get; }
+        public DateTime? Usageperiod_End { get; }
         [JsonPropertyName("is_paid")]
         public bool Is_Paid { get; }
         [JsonPropertyName("language")]
         public string Language { get; }
         [JsonPropertyName("in")]
-        public DateTime @In { get; }
+        public DateTime? @In { get; }
         [JsonPropertyName("out")]
-        public DateTime @Out { get; }
+        public DateTime? @Out { get; }
         [JsonPropertyName("linked_location")]
         public string Linked_Location { get; }
         [JsonPropertyName("location_mailing_number")]
@@ -59,9 +59,9 @@
         [JsonPropertyName("remark")]
         public string Remark { get; }
         [JsonPropertyName("planperiod_start")]
-        public DateTime Planperiod_Start { get; }
+        public DateTime? Planperiod_Start { get; }
         [JsonPropertyName("planperiod_end")]
-        public DateTime Planperiod_End { get; }
+        public DateTime? Planperiod_End { get; }
         [JsonPropertyName("price")]
         public double Price { get; }
         [JsonPropertyName("linked_project")]
@@ -80,12 +80,12 @@
                               string contact_Mailing_City, string contact_Mailing_Street,
                               string linked_Contact_Person, string contact_Person_Lastname,
                               string contact_Person_Email, string contact_Person_Middle_name,
-                              string contact_Person_First_name, DateTime usageperiod_Start, DateTime usageperiod_End,
-                              bool is_Paid, string language, DateTime @in, DateTime @out, string linked_Location,
+                              string contact_Person_First_name, DateTime? usageperiod_Start, DateTime? usageperiod_End,
+                              bool is_Paid, string language, DateTime? @in, DateTime? @out, string linked_Location,
                               string location_Mailing_Number, string location_Mailing_Country, string location_Name,
                               string location_Mailing_Postalcode, string location_Mailing_City,
                               string location_Mailing_Street, string name, int external_Reference, string remark,
-                              DateTime planperiod_Start, DateTime planperiod_End, double price, string linked_Project,
+                              DateTime? planperiod_Start, DateTime? planperiod_End, double price, string linked_Project,
                               ESource source, EStatus status) : base(id, created, modified, creator, displayName, updateHash)
         {
             Linked_Contact = linked_Contact;
