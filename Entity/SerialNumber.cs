@@ -1,7 +1,11 @@
-﻿namespace RentmanSharp.Entity
+﻿using RentmanSharp.Endpoint;
+
+namespace RentmanSharp.Entity
 {
-    public class SerialNumber : AbstractEntity
+    public class SerialNumber : AbstractEntityCustom
     {
+        private static Equipment? equipmentEndpoint;
+
         [JsonPropertyName("equipment")]
         public string Equipment { get; }
         [JsonPropertyName("serial")]
@@ -30,8 +34,6 @@
         public string QRCodes { get; }
         [JsonPropertyName("tags")]
         public string Tags { get; }
-        [JsonPropertyName("custom")]
-        public JsonElement Custom { get; }
 
         [JsonConstructor]
         public SerialNumber(
@@ -39,7 +41,7 @@
             string equipment, string serial, DateTime? purchaseDate, double depreciation_Monthly, double book_Value,
             double purchase_Costs, bool active, string remark, string @ref, string asset_Location,
             double current_Book_Value, DateTime? next_Inspection, string qRCodes, string tags, JsonElement custom)
-            : base(id, created, modified, creator, displayName, updateHash)
+            : base(id, created, modified, creator, displayName, updateHash, custom)
         {
             Equipment = equipment;
             Serial = serial;
@@ -55,7 +57,6 @@
             Next_Inspection = next_Inspection;
             QRCodes = qRCodes;
             Tags = tags;
-            Custom = custom;
         }
 
         public override string ToString()

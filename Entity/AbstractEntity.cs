@@ -25,6 +25,10 @@
             DisplayName = displayName;
             this.updateHash = updateHash;
         }
+        public async Task Save()
+        {
+            await Task.Delay(0);
+        }
 
         public override string ToString()
         {

@@ -1,6 +1,6 @@
 ﻿namespace RentmanSharp.Entity
 {
-    public class EquipmentItem : AbstractEntity
+    public class EquipmentItem : AbstractEntityCustom
     {
         [JsonPropertyName("folder")]
         public string Folder { get; }
@@ -84,8 +84,6 @@
         public string QRCodes_Of_Serial_Numbers { get; }
         [JsonPropertyName("tags")]
         public string Tags { get; }
-        [JsonPropertyName("custom")]
-        public JsonElement Custom { get; }
 
         [JsonConstructor]
         public EquipmentItem(uint id, DateTime created, DateTime modified, string creator, string displayName,
@@ -98,7 +96,7 @@
             EEquipmentStockManagement stock_Management, string taxclass, double list_Price, double volume,
             int packed_Per, double height, double width, double length, double weight, double power, double current,
             string country_Of_Origin, string image, string ledger, string defaultGroup, string qRCodes,
-            string qRCodes_Of_Serial_Numbers, string tags, JsonElement custom) : base(id, created, modified, creator, displayName, updateHash)
+            string qRCodes_Of_Serial_Numbers, string tags, JsonElement custom) : base(id, created, modified, creator, displayName, updateHash, custom)
         {
             Folder = folder;
             Code = code;
@@ -141,7 +139,6 @@
             QRCodes = qRCodes;
             QRCodes_Of_Serial_Numbers = qRCodes_Of_Serial_Numbers;
             Tags = tags;
-            Custom = custom;
         }
 
         public override string ToString()
