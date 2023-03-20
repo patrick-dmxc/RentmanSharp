@@ -15,7 +15,7 @@
         [JsonPropertyName("number")]
         public int Number { get; }
         [JsonPropertyName("repairperiod_start")]
-        public DateTime RepairPeriod_Start { get; }
+        public DateTime? RepairPeriod_Start { get; }
         [JsonPropertyName("repairperiod_end")]
         public DateTime? RepairPeriod_End { get; }
         [JsonPropertyName("amount")]
@@ -40,7 +40,7 @@
         [JsonConstructor]
         public Repair(uint id, DateTime created, DateTime modified, string creator, string displayName,
                       string updateHash, string equipment, string serialNumber, string reporter, string? assignee,
-                      string external_Repairer, int number, DateTime repairPeriod_Start, DateTime? repairPeriod_End,
+                      string external_Repairer, int number, DateTime? repairPeriod_Start, DateTime? repairPeriod_End,
                       int amount, string remark, double repair_Costs, byte is_Usable,
                       string? costs_Charged_To_Customer, string? subProject, string stock_Location, string tags,
                       JsonElement custom) : base(id, created, modified, creator, displayName, updateHash)

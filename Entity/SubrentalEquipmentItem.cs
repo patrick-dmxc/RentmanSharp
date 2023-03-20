@@ -9,9 +9,9 @@
         [JsonPropertyName("parent")]
         public string Parent { get; }
         [JsonPropertyName("planperiod_start")]
-        public DateTime Planperiod_Start { get; }
+        public DateTime? Planperiod_Start { get; }
         [JsonPropertyName("planperiod_end")]
-        public DateTime Planperiod_End { get; }
+        public DateTime? Planperiod_End { get; }
         [JsonPropertyName("name")]
         public string Name { get; }
         [JsonPropertyName("quantity")]
@@ -34,7 +34,27 @@
         public string Supplier_PlanningMaterial { get; }
 
         [JsonConstructor]
-        public SubrentalEquipmentItem(uint id, DateTime created, DateTime modified, string creator, string displayName, string updateHash, string subrental_Group, string equipment, string parent, DateTime planperiod_Start, DateTime planperiod_End, string name, int quantity, int quantity_Total, double unit_Price, double discount, double factor, int order, string remark, double linePrice, string supplier_PlanningMaterial) : base(id, created, modified, creator, displayName, updateHash)
+        public SubrentalEquipmentItem(uint id,
+                                      DateTime created,
+                                      DateTime modified,
+                                      string creator,
+                                      string displayName,
+                                      string updateHash,
+                                      string subrental_Group,
+                                      string equipment,
+                                      string parent,
+                                      DateTime? planperiod_Start,
+                                      DateTime? planperiod_End,
+                                      string name,
+                                      int quantity,
+                                      int quantity_Total,
+                                      double unit_Price,
+                                      double discount,
+                                      double factor,
+                                      int order,
+                                      string remark,
+                                      double linePrice,
+                                      string supplier_PlanningMaterial) : base(id, created, modified, creator, displayName, updateHash)
         {
             Subrental_Group = subrental_Group;
             Equipment = equipment;

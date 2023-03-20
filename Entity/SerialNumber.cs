@@ -25,7 +25,7 @@
         [JsonPropertyName("current_book_value")]
         public double Current_Book_Value { get; }
         [JsonPropertyName("next_inspection")]
-        public DateTime Next_Inspection { get; }
+        public DateTime? Next_Inspection { get; }
         [JsonPropertyName("qrcodes")]
         public string QRCodes { get; }
         [JsonPropertyName("tags")]
@@ -35,10 +35,10 @@
 
         [JsonConstructor]
         public SerialNumber(
-            uint id, DateTime created, DateTime modified, string creator, string displayName, string? updateHash,
+            uint id, DateTime created, DateTime modified, string creator, string displayName, string updateHash,
             string equipment, string serial, DateTime? purchaseDate, double depreciation_Monthly, double book_Value,
             double purchase_Costs, bool active, string remark, string @ref, string asset_Location,
-            double current_Book_Value, DateTime next_Inspection, string qRCodes, string tags, JsonElement custom)
+            double current_Book_Value, DateTime? next_Inspection, string qRCodes, string tags, JsonElement custom)
             : base(id, created, modified, creator, displayName, updateHash)
         {
             Equipment = equipment;

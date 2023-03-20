@@ -13,10 +13,10 @@
         [JsonPropertyName("displayname")]
         public string DisplayName { get; set; }
         [JsonPropertyName("updateHash")]
-        public string? updateHash { get; set; }
+        public string updateHash { get; set; }
 
         [JsonConstructor]
-        protected AbstractEntity(uint id, DateTime created, DateTime modified, string creator, string displayName, string? updateHash)
+        protected AbstractEntity(uint id, DateTime created, DateTime modified, string creator, string displayName, string updateHash)
         {
             ID = id;
             Created = created;

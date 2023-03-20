@@ -23,13 +23,13 @@
         [JsonPropertyName("travel_time_after")]
         public int Travel_Time_After { get; }
         [JsonPropertyName("usageperiod_start")]
-        public DateTime Usageperiod_Start { get; }
+        public DateTime? Usageperiod_Start { get; }
         [JsonPropertyName("usageperiod_end")]
-        public DateTime Usageperiod_End { get; }
+        public DateTime? Usageperiod_End { get; }
         [JsonPropertyName("planperiod_start")]
-        public DateTime Planperiod_Start { get; }
+        public DateTime? Planperiod_Start { get; }
         [JsonPropertyName("planperiod_end")]
-        public DateTime Planperiod_End { get; }
+        public DateTime? Planperiod_End { get; }
         [JsonPropertyName("planperiod_start_schedule_is_start")]
         public string Planperiod_Start_Schedule_Is_Start { get; }
         [JsonPropertyName("usageperiod_start_schedule_is_start")]
@@ -79,8 +79,8 @@
         public ProjectFunction(uint id, DateTime created, DateTime modified, string creator, string displayName,
                                string updateHash, string cost_Rate, string price_Rate, string project,
                                string subProject, bool is_Template, string group, string name_External, string name,
-                               int travel_Time_Before, int travel_Time_After, DateTime usageperiod_Start,
-                               DateTime usageperiod_End, DateTime planperiod_Start, DateTime planperiod_End,
+                               int travel_Time_Before, int travel_Time_After, DateTime? usageperiod_Start,
+                               DateTime? usageperiod_End, DateTime? planperiod_Start, DateTime? planperiod_End,
                                string planperiod_Start_Schedule_Is_Start, string usageperiod_Start_Schedule_Is_Start,
                                string planperiod_End_Schedule_Is_Start, string usageperiod_End_Schedule_Is_Start,
                                string type, int duration, int amount, int @break, int distance, bool twoway,

@@ -13,9 +13,9 @@
         [JsonPropertyName("vehicle")]
         public string Vehicle { get; }
         [JsonPropertyName("planningperiod_start")]
-        public DateTime Planningperiod_Start { get; }
+        public DateTime? Planningperiod_Start { get; }
         [JsonPropertyName("planningperiod_end")]
-        public DateTime Planningperiod_End { get; }
+        public DateTime? Planningperiod_End { get; }
         [JsonPropertyName("remark")]
         public string Remark { get; }
         [JsonPropertyName("remark_planner")]
@@ -28,7 +28,7 @@
         [JsonConstructor]
         public ProjectVehicle(uint id, DateTime created, DateTime modified, string creator, string displayName,
             string updateHash, string name, string cost_Rate, string function, string transport, string vehicle,
-            DateTime planningperiod_Start, DateTime planningperiod_End, string remark, string remark_Planner,
+            DateTime? planningperiod_Start, DateTime? planningperiod_End, string remark, string remark_Planner,
             double costs, JsonElement custom) : base(id, created, modified, creator, displayName, updateHash)
         {
             Name = name;

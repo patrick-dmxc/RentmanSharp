@@ -11,9 +11,9 @@
         [JsonPropertyName("visible")]
         public bool Visible { get; }
         [JsonPropertyName("planperiod_start")]
-        public DateTime Planperiod_Start { get; }
+        public DateTime? Planperiod_Start { get; }
         [JsonPropertyName("planperiod_end")]
-        public DateTime Planperiod_End { get; }
+        public DateTime? Planperiod_End { get; }
         [JsonPropertyName("transport")]
         public string Transport { get; }
         [JsonPropertyName("remark")]
@@ -40,7 +40,7 @@
         [JsonConstructor]
         public ProjectCrewItem(uint id, DateTime created, DateTime modified, string creator, string displayName,
                                string updateHash, string cost_Rate, string function, string crewMember, bool visible,
-                               DateTime planperiod_Start, DateTime planperiod_End, string transport, string remark,
+                               DateTime? planperiod_Start, DateTime? planperiod_End, string transport, string remark,
                                string remark_Planner, string invoice_Reference, bool project_Leader,
                                bool is_Visible_On_Dashboard, double costs, double cost_Actual, int hours_Registered,
                                int hours_Planned, JsonElement custom) : base(id, created, modified, creator, displayName, updateHash)

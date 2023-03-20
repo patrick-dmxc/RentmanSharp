@@ -3,11 +3,11 @@
     public class ProjectEquipmentItem : AbstractEntity
     {
         [JsonPropertyName("equipment")]
-        public string Equipment { get; }
+        public string? Equipment { get; }
         [JsonPropertyName("parent")]
-        public string Parent { get; }
+        public string? Parent { get; }
         [JsonPropertyName("ledger")]
-        public string Ledger { get; }
+        public string? Ledger { get; }
         [JsonPropertyName("quantity")]
         public int Quantity { get; }
         [JsonPropertyName("quantity_total")]
@@ -33,9 +33,9 @@
         [JsonPropertyName("delay_notified")]
         public bool Delay_Notified { get; }
         [JsonPropertyName("planperiod_start")]
-        public DateTime Planperiod_Start { get; }
+        public DateTime? Planperiod_Start { get; }
         [JsonPropertyName("planperiod_end")]
-        public DateTime Planperiod_End { get; }
+        public DateTime? Planperiod_End { get; }
         [JsonPropertyName("has_missings")]
         public bool Has_Missings { get; }
         [JsonPropertyName("warehouse_reservations")]
@@ -49,11 +49,11 @@
 
         [JsonConstructor]
         public ProjectEquipmentItem(uint id, DateTime created, DateTime modified, string creator,
-                                    string displayName, string updateHash, string equipment, string parent,
-                                    string ledger, int quantity, int quantity_Total, string equipment_Group,
+                                    string displayName, string updateHash, string? equipment, string? parent,
+                                    string? ledger, int quantity, int quantity_Total, string equipment_Group,
                                     double discount, bool is_Option, double factor, int order, double unit_Price,
                                     string name, string external_Remark, string internal_Remark, bool delay_Notified,
-                                    DateTime planperiod_Start, DateTime planperiod_End, bool has_Missings,
+                                    DateTime? planperiod_Start, DateTime? planperiod_End, bool has_Missings,
                                     int warehouse_Reservations, int subrent_Reservations, string serial_Number_IDs,
                                     JsonElement custom) : base(id, created, modified, creator, displayName, updateHash)
         {
