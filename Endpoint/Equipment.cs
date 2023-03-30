@@ -36,5 +36,10 @@ namespace RentmanSharp.Endpoint
             Accessories accessories = Connection.Instance.GetEndpoint<Accessories>();
             return await accessories.GetCollection(BaseUrl + $"/{Path}/{id}", filter);
         }
+        public async Task<Entity.File[]> GetLinkedFilesCollectionEntity(uint id, Filter? filter = null)
+        {
+            Files files = Connection.Instance.GetEndpoint<Files>();
+            return await files.GetCollection(BaseUrl + $"/{Path}/{id}", filter);
+        }
     }
 }
