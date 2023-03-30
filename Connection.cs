@@ -136,15 +136,57 @@ namespace RentmanSharp
         }
         private async Task loopCroneCacheThread()
         {
+            List<IEndpoint> pendingCaching = new();
+            byte pendingCount = 0;
             foreach (var endpoint in endpoints)
-                await endpoint.GetCollectionEntity();
+            {
+                while (pendingCount >= CacheOptions.ParallelLimit)
+                    await Task.Delay(10);
+
+                lock (pendingCaching)
+                {
+                    pendingCount++;
+                    pendingCaching.Add(endpoint);
+                }
+                _ = Task.Run(async () =>
+                {
+                    await endpoint.GetCollectionEntity();
+
+                    lock (pendingCaching)
+                    {
+                        pendingCaching.Remove(endpoint);
+                        pendingCount--;
+                    }
+                });
+            }
 
             CachedNewData?.Invoke(this, EventArgs.Empty);
         }
         private async Task loopIncrementCacheThread()
         {
+            List<IEndpoint> pendingCaching = new();
+            byte pendingCount = 0;
             foreach (var endpoint in endpoints)
-                await endpoint.GetCollectionEntity(endpoint.IncrementFilter);
+            {
+                while (pendingCount >= CacheOptions.ParallelLimit)
+                    await Task.Delay(10);
+
+                lock (pendingCaching)
+                {
+                    pendingCount++;
+                    pendingCaching.Add(endpoint);
+                }
+                _ = Task.Run(async () =>
+                {
+                    await endpoint.GetCollectionEntity(endpoint.IncrementFilter);
+
+                    lock (pendingCaching)
+                    {
+                        pendingCaching.Remove(endpoint);
+                        pendingCount--;
+                    }
+                });
+            }
 
             CachedNewData?.Invoke(this, EventArgs.Empty);
         }

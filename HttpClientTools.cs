@@ -75,11 +75,11 @@
 
             lock (lockObject)
             {
-                QueueThread = new Thread(() =>
+                QueueThread = new Thread(async () =>
                 {
                     while (true)
                     {
-                        var now = DateTime.Now;
+                        var now = DateTime.UtcNow;
                         var newDay = now.DayOfWeek;
                         var newSecond = now.Second;
                         if (day != newDay)
@@ -92,15 +92,15 @@
                             secound = newSecond;
                             RequestsSendSecond = 0;
                         }
-                        Thread.Sleep(100);
+                        await Task.Delay(100);
                         if (requestQueue.Count == 0)
                             continue;
 
-                        Task.Run(async () =>
+                        _ = Task.Run(async () =>
                         {
                             try
                             {
-                                Tuple<ulong, HttpClient, HttpRequestMessage> req = null;
+                                Tuple<ulong, HttpClient, HttpRequestMessage>? req = null;
                                 lock (requestQueue)
                                     if (requestQueue.Count != 0)
                                     {
@@ -120,7 +120,7 @@
                                         HttpResponseMessage res = await req.Item2.SendAsync(req.Item3);
                                         logger.LogDebug($"Received Response({req.Item1}): StatusCode({res?.StatusCode})");
                                         lock (responseQueue)
-                                            responseQueue.Add(new Tuple<ulong, HttpResponseMessage>(req.Item1, res));
+                                            responseQueue.Add(new Tuple<ulong, HttpResponseMessage>(req.Item1, res!));
                                     }
                                     finally
                                     {
@@ -137,7 +137,7 @@
                 });
                 QueueThread.Name = "HTTPClientThread";
                 QueueThread.IsBackground = true;
-                QueueThread.Priority = ThreadPriority.BelowNormal;
+                QueueThread.Priority = ThreadPriority.Highest;
                 QueueThread.Start();
             }
         }

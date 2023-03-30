@@ -8,15 +8,17 @@
         public readonly TimeOnly Delay = TimeOnly.MinValue;
         public readonly TimeOnly CroneInterval = TimeOnly.MinValue;
         public readonly TimeOnly IncrementInterval = TimeOnly.MinValue;
+        public readonly byte ParallelLimit = 5;
         public CacheOptions() 
         {
         }
-        public CacheOptions(TimeOnly delay, TimeOnly croneInterval, TimeOnly incrementInterval) : this()
+        public CacheOptions(TimeOnly delay, TimeOnly croneInterval, TimeOnly incrementInterval, byte parallelLimit = 3) : this()
         {
             Enabled = true;
             Delay = delay;
             CroneInterval = croneInterval;
             IncrementInterval = incrementInterval;
+            ParallelLimit = parallelLimit;
         }
     }
 }
