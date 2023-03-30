@@ -17,6 +17,20 @@ namespace RentmanSharp
         }
         public bool IsInitialized { get; private set; } = false;
 
+        public CacheOptions CacheOptions
+        {
+            get;
+            private set;
+        } = CacheOptions.Disabled;
+
+        private Thread? cacheThread;
+        private bool isQueueingData = false;
+        private DateTime lastLoop = DateTime.Now;
+        private DateTime lastCrone = DateTime.Now;
+        private DateTime lastIncrement = DateTime.Now;
+
+        public event EventHandler? CachedNewData = null;
+
         private List<IEndpoint> endpoints { get; } = new();
         public IReadOnlyList<IEndpoint> Endpoints { get => endpoints.AsReadOnly(); }
 
@@ -35,7 +49,7 @@ namespace RentmanSharp
             this.findEndPoints();
         }
 
-        public void Connect(in string token)
+        public void Connect(in string token, CacheOptions? cacheOptions = null)
         {
 
             if (!this.IsInitialized)
@@ -48,6 +62,12 @@ namespace RentmanSharp
 
             _logger?.Log(LogLevel.Information, "Connect");
             Token = token;
+
+            if (cacheOptions.HasValue)
+            {
+                this.CacheOptions = cacheOptions.Value;
+                this.startCacheThread();
+            }
         }
 
         private void findEndPoints()
@@ -79,6 +99,54 @@ namespace RentmanSharp
                 return result;
 
             throw new NullReferenceException();
+        }
+
+        private void startCacheThread()
+        {
+            this.cacheThread = new Thread(async () =>
+            {
+                await Task.Delay(this.CacheOptions.Delay.Millisecond);
+                await loopCroneCacheThread();
+                while (true)
+                {
+                    await Task.Delay(100);
+                    if (!this.isQueueingData)
+                        await this.loopCacheThread();
+                }
+            });
+            this.cacheThread.IsBackground = true;
+            this.cacheThread.Priority = ThreadPriority.BelowNormal;
+            this.cacheThread.Name = $"Cache-Thread";
+            this.cacheThread.Start();
+        }
+        private async Task loopCacheThread()
+        {
+            var now = DateTime.Now;
+            if ((now - lastCrone).Ticks > CacheOptions.CroneInterval.Ticks)
+            {
+                lastIncrement = lastCrone = now;
+                await loopCroneCacheThread();
+            }
+            else if ((now - lastIncrement).Ticks > CacheOptions.IncrementInterval.Ticks)
+            {
+                lastIncrement = now;
+                await loopIncrementCacheThread();
+            }
+            lastLoop = now;
+        }
+        private async Task loopCroneCacheThread()
+        {
+            foreach (var endpoint in endpoints)
+                await endpoint.GetCollectionEntity();
+
+            CachedNewData?.Invoke(this, EventArgs.Empty);
+        }
+        private async Task loopIncrementCacheThread()
+        {
+            foreach (var endpoint in endpoints)
+                await endpoint.GetCollectionEntity(endpoint.IncrementFilter);
+
+            CachedNewData?.Invoke(this, EventArgs.Empty);
         }
     }
 }

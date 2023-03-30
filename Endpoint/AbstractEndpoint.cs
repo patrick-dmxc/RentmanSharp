@@ -18,6 +18,7 @@ namespace RentmanSharp.Endpoint
         public event EventHandler<DictionaryChangedEventArgs<uint, T>>? EntitiesChanged;
 
         private HttpClient? httpClient = null;
+        public Filter IncrementFilter { get; private set; }
 
         private ConcurrentObservableDictionary<uint, T> entities { get; } = new();
 
