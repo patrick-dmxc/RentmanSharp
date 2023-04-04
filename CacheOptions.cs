@@ -9,16 +9,27 @@
         public readonly TimeOnly CroneInterval = TimeOnly.MinValue;
         public readonly TimeOnly IncrementInterval = TimeOnly.MinValue;
         public readonly byte ParallelLimit = 5;
+        public readonly Type[] CachedEndpoints = new Type[0];
         public CacheOptions() 
         {
         }
-        public CacheOptions(TimeOnly delay, TimeOnly croneInterval, TimeOnly incrementInterval, byte parallelLimit = 3) : this()
+        public CacheOptions(TimeOnly delay, TimeOnly croneInterval, TimeOnly incrementInterval, byte parallelLimit = 3, params Type[] cachedEndpoints) : this()
         {
             Enabled = true;
             Delay = delay;
             CroneInterval = croneInterval;
             IncrementInterval = incrementInterval;
             ParallelLimit = parallelLimit;
+            try
+            {
+                if (cachedEndpoints == null || cachedEndpoints.Length == 0)
+                    return;
+                CachedEndpoints = cachedEndpoints;
+            }
+            catch(Exception e)
+            {
+
+            }
         }
     }
 }

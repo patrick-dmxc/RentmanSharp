@@ -138,7 +138,10 @@ namespace RentmanSharp
         {
             List<IEndpoint> pendingCaching = new();
             byte pendingCount = 0;
-            foreach (var endpoint in endpoints)
+            var _endpoints = endpoints.ToArray();
+            if (CacheOptions.CachedEndpoints.Length != 0)
+                _endpoints = endpoints.Where(ep => CacheOptions.CachedEndpoints.Any(cep => cep == ep.GetType())).ToArray();
+            foreach (var endpoint in _endpoints)
             {
                 while (pendingCount >= CacheOptions.ParallelLimit)
                     await Task.Delay(10);
@@ -160,13 +163,19 @@ namespace RentmanSharp
                 });
             }
 
+            while (pendingCount > 0)
+                await Task.Delay(10);
+
             CachedNewData?.Invoke(this, EventArgs.Empty);
         }
         private async Task loopIncrementCacheThread()
         {
             List<IEndpoint> pendingCaching = new();
             byte pendingCount = 0;
-            foreach (var endpoint in endpoints)
+            var _endpoints = endpoints.ToArray();
+            if (CacheOptions.CachedEndpoints.Length != 0)
+                _endpoints = endpoints.Where(ep => CacheOptions.CachedEndpoints.Any(cep => cep == ep.GetType())).ToArray();
+            foreach (var endpoint in _endpoints)
             {
                 while (pendingCount >= CacheOptions.ParallelLimit)
                     await Task.Delay(10);
@@ -187,6 +196,9 @@ namespace RentmanSharp
                     }
                 });
             }
+
+            while (pendingCount > 0)
+                await Task.Delay(10);
 
             CachedNewData?.Invoke(this, EventArgs.Empty);
         }
