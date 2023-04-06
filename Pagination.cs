@@ -22,8 +22,6 @@
 
         public static implicit operator Pagination?(Response response)
         {
-            if (response == null)
-                return null;
             return new Pagination(response.Limit, response.Offset);
         }
     }

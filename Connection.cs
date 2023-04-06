@@ -187,7 +187,7 @@ namespace RentmanSharp
                 }
                 _ = Task.Run(async () =>
                 {
-                    await endpoint.GetCollectionEntity(endpoint.IncrementFilter);
+                    await endpoint.GetCollectionEntity(Filter.IncrementFilter);
 
                     lock (pendingCaching)
                     {

@@ -4,6 +4,7 @@
     {
         public readonly FilterProperty[] FilterProperties;
         public readonly Pagination Pagination;
+        public static Filter IncrementFilter = new IncrementFilter();
         public Filter(in Pagination? pagination = null, params FilterProperty[] filterProperties)
         {
             this.FilterProperties = filterProperties;
@@ -77,6 +78,14 @@
                 NotEqualTo,
                 IsNull
             }
+        }
+    }
+
+    internal sealed class IncrementFilter: Filter
+    {
+        internal IncrementFilter()
+        {
+
         }
     }
 }

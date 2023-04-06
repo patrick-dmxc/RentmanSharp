@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 
 namespace RentmanSharp.Endpoint
 {
-    public abstract class AbstractEndpoint<T>: IEndpoint where T : IEntity
+    public abstract class AbstractEndpoint<T>: IEndpoint where T : class , IEntity
     {
         private readonly ILogger<AbstractEndpoint<T>> _logger;
         public abstract string Path { get; }
@@ -20,7 +20,7 @@ namespace RentmanSharp.Endpoint
         private HttpClient? httpClient = null;
         public Filter IncrementFilter { get; private set; }
 
-        private ConcurrentObservableDictionary<uint, T> entities { get; } = new();
+        private ConcurrentObservableDictionary<uint, IEntity> entities { get; } = new(); 
 
         public ReadOnlyCollection<T> Entities
         {
@@ -39,9 +39,9 @@ namespace RentmanSharp.Endpoint
             this.entities.CollectionChanged += Entities_CollectionChanged1;
         }
 
-        private void Entities_CollectionChanged1(object? sender, DictionaryChangedEventArgs<uint, T> e)
+        private void Entities_CollectionChanged1(object? sender, DictionaryChangedEventArgs<uint, IEntity> e)
         {
-            this.EntitiesChanged?.Invoke(this, e);
+            this.EntitiesChanged?.Invoke(this, new DictionaryChangedEventArgs<uint, T>(e.Action,e.Key,(T)e.NewValue, (T)e.OldValue));
         }
 
         protected virtual Filter? DefaultFilter { get => new(); }
@@ -60,9 +60,10 @@ namespace RentmanSharp.Endpoint
 
             List<IEntity> res= new();
             JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
-            Response? resp = null;
+            Response resp;
             string? url = null;
             bool firstRun = true;
+            bool increment = filter is IncrementFilter;
             do
             {
                 if (string.IsNullOrWhiteSpace(url))
@@ -72,7 +73,10 @@ namespace RentmanSharp.Endpoint
                 else if (filter != null && !firstRun)
                     filter = ((Filter)filter).Next();
 
-                url = baseUrl + filter;
+                if(increment)
+                    url = baseUrl;
+                else
+                    url = baseUrl + filter;
 
                 if (string.IsNullOrWhiteSpace(url))
                     break;
@@ -90,11 +94,19 @@ namespace RentmanSharp.Endpoint
                         res.AddRange(list);
                         foreach (T l in list)
                         {
-                            var id = ((IEntity)l).ID;
-                            if (!entities.OfType<IEntity>().Any(e => e.ID == id))
-                                entities.AddOrUpdate(id, l);
+                            var id = l.ID;
+                            entities.AddOrUpdate(id, l, (key, oldValue) =>
+                            {
+                                if (oldValue is AbstractEntity abstractOldValue && l is AbstractEntity abstractL)
+                                {
+                                    if (abstractOldValue.updateHash.Equals(abstractL.updateHash))
+                                        return abstractL;
+                                    return l;
+                                }
+                                else
+                                    return l;
+                            });
                         }
-                        
                     }
                 }
                 catch (JsonException e)
@@ -110,14 +122,13 @@ namespace RentmanSharp.Endpoint
                     Console.WriteLine(resp.Data.ToString());
                 }
                 firstRun = false;
+                if (increment)
+                    break;
             }
             while (thereIsMore(resp));
 
-            static bool thereIsMore(Response? resp)
+            static bool thereIsMore(Response resp)
             {
-                if (resp == null)
-                    return false;
-
                 return resp.ItemCount == resp.Limit;
             }
 
@@ -173,7 +184,7 @@ namespace RentmanSharp.Endpoint
             {
                 string contentData = await response.Content.ReadAsStringAsync();
                 var res = JsonSerializer.Deserialize<Response>(contentData, deserializeOptions);
-                return res ?? throw new Exception("Can't deserialize Data");
+                return res;
             }
             else
                 throw new Exception(response.ToString());
@@ -190,7 +201,7 @@ namespace RentmanSharp.Endpoint
             {
                 string contentData = await response.Content.ReadAsStringAsync();
                 var res = JsonSerializer.Deserialize<Response>(contentData, deserializeOptions);
-                return res ?? throw new Exception("Can't deserialize Data");
+                return res;
             }
             else
                 throw new Exception(response.ToString());
@@ -207,7 +218,7 @@ namespace RentmanSharp.Endpoint
             {
                 string contentData = await response.Content.ReadAsStringAsync();
                 var res = JsonSerializer.Deserialize<Response>(contentData, deserializeOptions);
-                return res ?? throw new Exception("Can't deserialize Data");
+                return res;
             }
             else
                 throw new Exception(response.ToString());

@@ -1,10 +1,23 @@
 ﻿namespace RentmanSharp
 {
-    public class Response
+    public readonly struct Response
     {
-        public JsonElement Data { get; set; }
-        public int ItemCount { get; set; }
-        public int Limit { get; set; }
-        public int Offset { get; set; }
+        [JsonPropertyName("Data")]
+        public JsonElement Data { get; }
+        [JsonPropertyName("ItemCount")]
+        public int ItemCount { get; }
+        [JsonPropertyName("Limit")]
+        public int Limit { get; }
+        [JsonPropertyName("Offset")]
+        public int Offset { get; }
+
+        [JsonConstructor]
+        public Response(JsonElement data, int itemCount, int limit, int offset)
+        {
+            Data = data;
+            ItemCount = itemCount;
+            Limit = limit;
+            Offset = offset;
+        }
     }
 }
