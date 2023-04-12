@@ -52,11 +52,9 @@ namespace RentmanSharp.Endpoint
         }
         internal async Task<T[]> GetCollection(string baseUrl, Filter? filter = null)
         {
-            baseUrl+=$"/{Path}";
-            
+            baseUrl+=$"/{Path}";            
 
             httpClient ??= HttpClientTools.CreateHttpCLient();
-
 
             List<IEntity> res= new();
             JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
@@ -73,8 +71,13 @@ namespace RentmanSharp.Endpoint
                 else if (filter != null && !firstRun)
                     filter = ((Filter)filter).Next();
 
-                if(increment)
-                    url = baseUrl;
+                if (increment)
+                {
+                    if (this.DefaultFilter != null)
+                        url = baseUrl + new Pagination(this.DefaultFilter.Pagination.Limit, null);
+                    else
+                        url = baseUrl;
+                }
                 else
                     url = baseUrl + filter;
 

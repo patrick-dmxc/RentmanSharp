@@ -30,6 +30,8 @@ namespace RentmanSharp
         private DateTime lastIncrement = DateTime.Now;
 
         public event EventHandler? CachedNewData = null;
+        public event EventHandler? CachedNewDataCrone = null;
+        public event EventHandler? CachedNewDataIncrement = null;
 
         private List<IEndpoint> endpoints { get; } = new();
         public IReadOnlyList<IEndpoint> Endpoints { get => endpoints.AsReadOnly(); }
@@ -136,6 +138,7 @@ namespace RentmanSharp
         }
         private async Task loopCroneCacheThread()
         {
+            _logger?.LogDebug("Crone Cache");
             List<IEndpoint> pendingCaching = new();
             byte pendingCount = 0;
             var _endpoints = endpoints.ToArray();
@@ -153,12 +156,27 @@ namespace RentmanSharp
                 }
                 _ = Task.Run(async () =>
                 {
-                    await endpoint.GetCollectionEntity();
-
-                    lock (pendingCaching)
+                    try
                     {
-                        pendingCaching.Remove(endpoint);
-                        pendingCount--;
+                        await endpoint.GetCollectionEntity();
+
+                        lock (pendingCaching)
+                        {
+                            pendingCaching.Remove(endpoint);
+                            pendingCount--;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger?.LogError(string.Empty, ex);
+                    }
+                    finally
+                    {
+                        lock (pendingCaching)
+                        {
+                            pendingCaching.Remove(endpoint);
+                            pendingCount--;
+                        }
                     }
                 });
             }
@@ -167,9 +185,11 @@ namespace RentmanSharp
                 await Task.Delay(10);
 
             CachedNewData?.Invoke(this, EventArgs.Empty);
+            CachedNewDataCrone?.Invoke(this, EventArgs.Empty);
         }
         private async Task loopIncrementCacheThread()
         {
+            _logger?.LogDebug("Increment Cache");
             List<IEndpoint> pendingCaching = new();
             byte pendingCount = 0;
             var _endpoints = endpoints.ToArray();
@@ -187,12 +207,21 @@ namespace RentmanSharp
                 }
                 _ = Task.Run(async () =>
                 {
-                    await endpoint.GetCollectionEntity(Filter.IncrementFilter);
-
-                    lock (pendingCaching)
+                    try
                     {
-                        pendingCaching.Remove(endpoint);
-                        pendingCount--;
+                        await endpoint.GetCollectionEntity(Filter.IncrementFilter);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger?.LogError(string.Empty, ex);
+                    }
+                    finally
+                    {
+                        lock (pendingCaching)
+                        {
+                            pendingCaching.Remove(endpoint);
+                            pendingCount--;
+                        }
                     }
                 });
             }
@@ -201,6 +230,7 @@ namespace RentmanSharp
                 await Task.Delay(10);
 
             CachedNewData?.Invoke(this, EventArgs.Empty);
+            CachedNewDataIncrement?.Invoke(this, EventArgs.Empty);
         }
     }
 }
