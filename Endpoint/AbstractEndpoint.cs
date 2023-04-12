@@ -104,7 +104,7 @@ namespace RentmanSharp.Endpoint
                                 {
                                     if (oldValue is AbstractEntity abstractOldValue && l is AbstractEntity abstractL)
                                     {
-                                        if (abstractOldValue.updateHash.Equals(abstractL.updateHash))
+                                        if (!abstractOldValue.updateHash.Equals(abstractL.updateHash))
                                         {
                                             _logger?.LogDebug($"Update {abstractOldValue} to {abstractL}");
                                             return abstractL;
