@@ -100,14 +100,25 @@ namespace RentmanSharp.Endpoint
                             var id = l.ID;
                             entities.AddOrUpdate(id, l, (key, oldValue) =>
                             {
-                                if (oldValue is AbstractEntity abstractOldValue && l is AbstractEntity abstractL)
+                                try
                                 {
-                                    if (abstractOldValue.updateHash.Equals(abstractL.updateHash))
-                                        return abstractL;
-                                    return l;
+                                    if (oldValue is AbstractEntity abstractOldValue && l is AbstractEntity abstractL)
+                                    {
+                                        if (abstractOldValue.updateHash.Equals(abstractL.updateHash))
+                                        {
+                                            _logger?.LogDebug($"Update {abstractOldValue} to {abstractL}");
+                                            return abstractL;
+                                        }
+                                        return l;
+                                    }
+                                    else
+                                        return l;
                                 }
-                                else
-                                    return l;
+                                catch(Exception ex)
+                                {
+                                    _logger?.LogError(ex, string.Empty);
+                                }
+                                return l;
                             });
                         }
                     }
