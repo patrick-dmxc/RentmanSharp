@@ -5,7 +5,7 @@ namespace RentmanSharp.Endpoint
     /// <summary>
     /// With this endpoint, you could read, write, update and delete appointments.
     /// </summary>
-    public class Appointments : AbstractEndpoint<Appointment>
+    public class Appointments : AbstractEndpoint<Entity.Appointment, Facade.Appointment>
     {
         public override string Path { get => "appointments"; }
         public async Task<Appointment?> CreateItem(Appointment item)
@@ -21,7 +21,7 @@ namespace RentmanSharp.Endpoint
             await DeleteItemInternal(id);
         }
 
-        public async Task<AppointmentCrewItem[]> GetLinkedAppointmentCrewCollectionEntity(uint id, Filter? filter = null)
+        public async Task<Facade.AppointmentCrewItem[]> GetLinkedAppointmentCrewCollectionEntity(uint id, Filter? filter = null)
         {
             AppointmentCrew appointmentCrew = Connection.Instance.GetEndpoint<AppointmentCrew>();
             return await appointmentCrew.GetCollection(BaseUrl + $"/{Path}/{id}", filter);

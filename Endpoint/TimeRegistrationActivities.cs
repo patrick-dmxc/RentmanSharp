@@ -1,11 +1,9 @@
-﻿using RentmanSharp.Entity;
-
-namespace RentmanSharp.Endpoint
+﻿namespace RentmanSharp.Endpoint
 {
     /// <summary>
     /// With this endpoint, you could retrieve the activities of the time registrations and their information.
     /// </summary>
-    public class TimeRegistrationActivities : AbstractEndpoint<TimeRegistrationActivity>
+    public class TimeRegistrationActivities : AbstractEndpoint<Entity.TimeRegistrationActivity, Facade.TimeRegistrationActivity>
     {
         public override string Path { get => "timeregistrationactivities"; }
     }

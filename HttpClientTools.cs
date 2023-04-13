@@ -17,7 +17,7 @@
         private static ulong queueID = 0;
         private static Queue<Tuple<ulong, HttpClient, HttpRequestMessage>> requestQueue = new Queue<Tuple<ulong, HttpClient, HttpRequestMessage>>();
         private static List<Tuple<ulong, HttpResponseMessage>> responseQueue = new List<Tuple<ulong, HttpResponseMessage>>();
-        private static Thread QueueThread = null;
+        private static Thread? QueueThread = null;
         private static object lockObject = new object();
 
 

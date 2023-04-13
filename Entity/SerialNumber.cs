@@ -4,8 +4,6 @@ namespace RentmanSharp.Entity
 {
     public class SerialNumber : AbstractEntityCustom
     {
-        private static Equipment? equipmentEndpoint;
-
         [JsonPropertyName("equipment")]
         public string Equipment { get; }
         [JsonPropertyName("serial")]

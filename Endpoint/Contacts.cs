@@ -5,7 +5,7 @@ namespace RentmanSharp.Endpoint
     /// <summary>
     /// Represents a company or a private person.
     /// </summary>
-    public class Contacts : AbstractEndpoint<Contact>
+    public class Contacts : AbstractEndpoint<Entity.Contact, Facade.Contact>
     {
         public override string Path { get => "contacts"; }
 
@@ -23,12 +23,12 @@ namespace RentmanSharp.Endpoint
         {
             await DeleteItemInternal(id);
         }
-        public async Task<ContactPerson[]> GetLinkedContactpersonsCollectionEntity(uint id, Filter? filter = null)
+        public async Task<Facade.ContactPerson[]> GetLinkedContactpersonsCollectionEntity(uint id, Filter? filter = null)
         {
             ContactPersons contactpersons = Connection.Instance.GetEndpoint<ContactPersons>();
             return await contactpersons.GetCollection(BaseUrl + $"/{Path}/{id}", filter);
         }
-        public async Task<Entity.File[]> GetLinkedFilesCollectionEntity(uint id, Filter? filter = null)
+        public async Task<Facade.File[]> GetLinkedFilesCollectionEntity(uint id, Filter? filter = null)
         {
             Files files = Connection.Instance.GetEndpoint<Files>();
             return await files.GetCollection(BaseUrl + $"/{Path}/{id}", filter);

@@ -158,7 +158,7 @@ namespace RentmanSharp
                 {
                     try
                     {
-                        await endpoint.GetCollectionEntity();
+                        await endpoint.GetCollectionFacades();
 
                         lock (pendingCaching)
                         {
@@ -182,7 +182,7 @@ namespace RentmanSharp
             }
 
             while (pendingCount > 0)
-                await Task.Delay(10);
+                await Task.Delay(2000);
 
             CachedNewData?.Invoke(this, EventArgs.Empty);
             CachedNewDataCrone?.Invoke(this, EventArgs.Empty);
@@ -209,7 +209,7 @@ namespace RentmanSharp
                 {
                     try
                     {
-                        await endpoint.GetCollectionEntity(Filter.IncrementFilter);
+                        await endpoint.GetCollectionFacades(Filter.IncrementFilter);
                     }
                     catch (Exception ex)
                     {
@@ -227,7 +227,7 @@ namespace RentmanSharp
             }
 
             while (pendingCount > 0)
-                await Task.Delay(10);
+                await Task.Delay(2000);
 
             CachedNewData?.Invoke(this, EventArgs.Empty);
             CachedNewDataIncrement?.Invoke(this, EventArgs.Empty);

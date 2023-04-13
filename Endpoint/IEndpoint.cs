@@ -1,12 +1,11 @@
-﻿using RentmanSharp.Entity;
+﻿using RentmanSharp.Facade;
 
 namespace RentmanSharp.Endpoint
 {
     public interface IEndpoint
     {
         string Path { get; }
-        Filter IncrementFilter { get; }
-        Task<IEntity[]> GetCollectionEntity(Filter? filter = null);
-        Task<IEntity> GetItemEntity(uint id);
+        Task<IFacade[]> GetCollectionFacades(Filter? filter = null);
+        Task<IFacade> GetItemFacade(uint id);
     }
 }

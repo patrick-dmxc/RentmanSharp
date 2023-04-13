@@ -5,7 +5,7 @@ namespace RentmanSharp.Endpoint
     /// <summary>
     /// Availability of the crew members.
     /// </summary>
-    public class CrewAvailability : AbstractEndpoint<CrewAvailabilityItem>
+    public class CrewAvailability : AbstractEndpoint<Entity.CrewAvailabilityItem, Facade.CrewAvailabilityItem>
     {
         public override string Path { get => "crewavailability"; }
         public async Task<CrewAvailabilityItem?> UpdateItem(CrewAvailabilityItem item, uint id)

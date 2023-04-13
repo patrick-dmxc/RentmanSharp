@@ -2,6 +2,18 @@
 {
     public readonly struct CacheOptions
     {
+        private static ILogger? _logger;
+        private static ILogger logger
+        {
+            get
+            {
+                if (_logger == null)
+                    _logger = ApplicationLogging.LoggerFactory.CreateLogger(typeof(CacheOptions));
+
+                return _logger;
+            }
+        }
+
         public static CacheOptions Disabled = new CacheOptions();
         public static CacheOptions Default = new CacheOptions(new TimeOnly(0, 0, 30), new TimeOnly(8, 0), new TimeOnly(0, 30));
         public readonly bool Enabled = false;
@@ -28,7 +40,7 @@
             }
             catch(Exception e)
             {
-
+                logger.LogDebug(e, string.Empty);
             }
         }
     }
