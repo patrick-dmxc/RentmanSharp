@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4.2.2
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v4.2.0
       with:
           dotnet-version: '6.0.x'
     - name: Install dependencies
@@ -19,11 +19,10 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v3.1.1
+      uses: actions/upload-artifact@v4.6.0
       with:
         path: bin/Release/net6.0/RentmanSharp.dll
     - name: Publish RentmanSharp
-      uses: brandedoutcast/publish-nuget@v2.5.2
       with:
           PROJECT_FILE_PATH: RentmanSharp.csproj
           NUGET_KEY: ${{secrets.NUGET_KEY}}
