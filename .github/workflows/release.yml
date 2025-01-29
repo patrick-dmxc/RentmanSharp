@@ -23,6 +23,7 @@ jobs:
       with:
         path: bin/Release/net6.0/RentmanSharp.dll
     - name: Publish RentmanSharp
+      uses: brandedoutcast/publish-nuget@v2.5.5
       with:
           PROJECT_FILE_PATH: RentmanSharp.csproj
           NUGET_KEY: ${{secrets.NUGET_KEY}}
